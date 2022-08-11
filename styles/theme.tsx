@@ -1,10 +1,5 @@
 // 1. Import `extendTheme`
 import { extendTheme } from "@chakra-ui/react"
-import '@fontsource/manrope'
-
-const fonts = {
-  body: `Manrope, sans-serif`, 
-}
 
 const breakpoints = {
   sm: '40em',
@@ -14,7 +9,6 @@ const breakpoints = {
 
 // 2. Call `extendTheme` and pass your custom values
 const customTheme = extendTheme({
-  fonts,
   breakpoints,
 })
 
