@@ -29,8 +29,8 @@ const RightTab = () => {
                     <Text fontWeight='semibold' mb='2'>
                         Login/register for more experience!
                     </Text>
-                    <PrimaryButton>Login</PrimaryButton>
-                    <OutlineButton>Get Started</OutlineButton>
+                    <PrimaryButton onClick={() => router.push('/login')}>Login</PrimaryButton>
+                    <OutlineButton onClick={() => router.push('/register')}>Get Started</OutlineButton>
                 </Flex>
             </Flex>
         </Flex>

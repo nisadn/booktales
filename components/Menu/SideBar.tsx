@@ -1,11 +1,11 @@
 import { Divider, Flex, useDisclosure } from '@chakra-ui/react';
-import styled from 'styled-components';
 import { AiOutlineHome } from 'react-icons/ai';
 import { BiEdit, BiLogInCircle } from 'react-icons/bi';
 import MenuIcon from './MenuIcon';
 import React from 'react';
 import { useRouter } from 'next/router';
 import { ThreadModal } from '../Modal';
+import { StyledLogo } from '../StyledComponents/Styled';
 
 interface ISideBar {
     page: string;
@@ -32,19 +32,10 @@ const SideBar: React.FC<ISideBar> = (props) => {
             </Flex>
             </Flex>
             <Flex w='full' h='10vh' justify='center' >
-                <MenuIcon icon={BiLogInCircle} label='Login' color='red.600' />
+                <MenuIcon icon={BiLogInCircle} label='Login' color='red.600' onClick={() => router.push('/login')} />
             </Flex>
         </Flex>
     )
 }
 
 export default SideBar;
-
-const StyledLogo = styled.div`
-    background-image: url('/logo.png');
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-position: center;
-    width: 100%;
-    height: 100%;
-`

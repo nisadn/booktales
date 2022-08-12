@@ -2,7 +2,7 @@ import { Account } from "../components/Container";
 
 const LoginPage = () => {
     return (
-        <Account />
+        <Account isRegister />
     )
 }
 
