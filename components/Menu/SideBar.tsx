@@ -1,13 +1,17 @@
-import { Divider, Flex, Icon, IconButton, Tooltip } from '@chakra-ui/react';
+import { Divider, Flex } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { AiOutlineHome } from 'react-icons/ai';
 import { BiEdit, BiLogInCircle } from 'react-icons/bi';
+import MenuIcon from './MenuIcon';
+import React from 'react';
 
-interface ImageProps {
-    img: string;
+interface ISideBar {
+    page: string;
 }
 
-const SideBar = () => {
+const SideBar: React.FC<ISideBar> = (props) => {
+    const { page } = props;
+
     return (
         <Flex w='80px' direction='column' py='6' px='4' h='100vh' boxShadow={'base'} position='fixed' zIndex={3} bg='white'>
             <Flex w='full' h='10vh'>
@@ -15,21 +19,15 @@ const SideBar = () => {
             </Flex>
             <Flex gap='5' direction='column' h='full' mt='10'>
             <Flex justify={'center'}>
-            <Tooltip hasArrow label='Home' placement='right'>
-                    <IconButton aria-label='home' icon={<Icon as={AiOutlineHome} w='6' h='6' />} />
-            </Tooltip>
+                <MenuIcon icon={AiOutlineHome} label='Home' isActive={page === 'home'} />
             </Flex>
             <Divider />
             <Flex justify={'center'}>
-            <Tooltip hasArrow label='Add Thread' placement='right'>
-                    <IconButton aria-label='add thread' icon={<Icon as={BiEdit} w='6' h='6' />} />
-            </Tooltip>
+                <MenuIcon icon={BiEdit} label='Add Thread' />
             </Flex>
             </Flex>
-            <Flex w='full' h='10vh' justify='center'>
-            <Tooltip hasArrow label='Login' placement='right'>
-                    <IconButton aria-label='login' icon={<Icon as={BiLogInCircle} w='6' h='6' />} />
-            </Tooltip>
+            <Flex w='full' h='10vh' justify='center' >
+                <MenuIcon icon={BiLogInCircle} label='Login' color='red.600' />
             </Flex>
         </Flex>
     )

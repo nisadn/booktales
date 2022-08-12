@@ -12,7 +12,7 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
+      <Layout page='home'>
         <Flex direction='column'>
           <Text as='span' fontSize='4xl' fontWeight='bold'>Welcome to
           <Text as='span'

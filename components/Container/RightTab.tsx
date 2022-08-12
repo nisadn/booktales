@@ -1,4 +1,5 @@
-import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react"
+import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
+import { OutlineButton, PrimaryButton } from "../Button";
 
 const RightTab = () => {
     return (
@@ -21,11 +22,11 @@ const RightTab = () => {
                 </Box>
                 <Divider />
                 <Flex direction='column' gap='2'>
-                    <Text fontWeight='semibold'>
+                    <Text fontWeight='semibold' mb='2'>
                         Login/register for more experience!
                     </Text>
-                    <Button borderRadius='full'>Login</Button>
-                    <Button borderRadius='full' variant='outline'>Getting Started</Button>
+                    <PrimaryButton>Login</PrimaryButton>
+                    <OutlineButton>Get Started</OutlineButton>
                 </Flex>
             </Flex>
         </Flex>
