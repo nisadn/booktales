@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react'
 import Head from 'next/head'
-import ThreadCard from '../components/Card/ThreadCard'
+import { Threads } from '../components/Container'
 import Layout from '../components/Layout/Layout'
 
 const Home = () => {
@@ -23,17 +23,7 @@ const Home = () => {
           !</Text>
           <Text fontSize='lg' fontWeight='medium'>Where everyone can share anything about books.</Text>
         </Flex>
-        <Flex direction='column' mt='10' gap='10'>
-          <ThreadCard />
-          <ThreadCard />
-          <ThreadCard />
-          <ThreadCard />
-          <ThreadCard />
-          <ThreadCard />
-          <ThreadCard />
-          <ThreadCard />
-          <ThreadCard />
-        </Flex>
+        <Threads />
       </Layout>
 
     </div>

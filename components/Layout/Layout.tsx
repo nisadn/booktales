@@ -12,9 +12,9 @@ const Layout: React.FC<LayoutProps> = (props) => {
     const { children, page } = props;
 
     return (
-        <Flex w='100vw'>
+        <Flex w='screen'>
             <SideBar page={page} />
-            <Flex w='full' ml='80px' mr='26vw' px='16' py='6' direction='column' >
+            <Flex w='full' ml='80px' mr='26vw' px='16' py='6' direction='column'>
                 { children }
             </Flex>
             <RightTab />

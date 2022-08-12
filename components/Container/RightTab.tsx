@@ -1,7 +1,10 @@
 import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { OutlineButton, PrimaryButton } from "../Button";
 
 const RightTab = () => {
+  const router = useRouter();
+
     return (
         <Flex w='25vw' boxShadow={'base'} position='fixed' right='0'>
             <Flex direction='column' w='full' overflowY='auto' h='100vh' py='6' px='8' gap='4' >
@@ -10,6 +13,7 @@ const RightTab = () => {
                     bgClip='text'
                     fontWeight='extrabold'
                     fontSize='xl'
+                    w='fit-content'
                 >@nis.adn
                 </Text>
                 <Divider />
@@ -17,7 +21,7 @@ const RightTab = () => {
                 <Box w='full' lineHeight={7} >
                     {categories.map((val: Category) => (
                         // <Badge colorScheme='facebook' px='4' mr='2' mb='2' key={val.id}>{val.title}</Badge>
-                        <Button mr='2' mb='2' size='sm' key={val.id}>{val.title}</Button>
+                        <Button mr='2' mb='2' size='sm' key={val.id} onClick={() => router.push(`/category/${val.id}`)}>{val.title}</Button>
                     ))}
                 </Box>
                 <Divider />

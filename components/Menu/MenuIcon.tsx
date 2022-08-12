@@ -6,10 +6,11 @@ interface IMenuIcon {
     label: string;
     color?: string;
     isActive?: boolean;
+    onClick?: any;
 }
 
 const MenuIcon: React.FC<IMenuIcon> = (props) => {
-    const { icon, label, color, isActive } = props;
+    const { icon, label, color, isActive, onClick } = props;
 
     return (
         <Tooltip hasArrow label={label} placement='right'>
@@ -25,6 +26,7 @@ const MenuIcon: React.FC<IMenuIcon> = (props) => {
                 color={isActive ? 'white' : color ? color : 'gray.500'}
                 borderRadius='full'
                 transition='0.3s'
+                onClick={onClick}
             />
         </Tooltip>
     )
