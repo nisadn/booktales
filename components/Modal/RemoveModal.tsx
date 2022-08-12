@@ -18,7 +18,7 @@ const RemoveModal: React.FC<IModal> = (props) => {
                 Are you sure you want to delete this thread?
             </ModalHeader>
             <ModalBody pt='0'>
-                It will also remove all the posts within this thread.
+                It will also remove all posts within this thread.
             </ModalBody>
 
             <ModalFooter justifyContent='center' gap='4'>

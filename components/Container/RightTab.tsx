@@ -1,9 +1,11 @@
-import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { OutlineButton, PrimaryButton } from "../Button";
+import { CategoryModal } from "../Modal";
 
 const RightTab = () => {
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <Flex w='25vw' boxShadow={'base'} position='fixed' right='0'>
@@ -17,13 +19,17 @@ const RightTab = () => {
                 >@nis.adn
                 </Text>
                 <Divider />
-                <Text fontWeight='semibold'>See Threads Based on Category</Text>
-                <Box w='full' lineHeight={7} >
-                    {categories.map((val: Category) => (
-                        // <Badge colorScheme='facebook' px='4' mr='2' mb='2' key={val.id}>{val.title}</Badge>
-                        <Button mr='2' mb='2' size='sm' key={val.id} onClick={() => router.push(`/category/${val.id}`)}>{val.title}</Button>
-                    ))}
-                </Box>
+                <Flex direction='column' gap='2'>
+                  <Text fontWeight='semibold' mb='2'>See Threads Based on Category</Text>
+                  <Box w='full' lineHeight={7} >
+                      {categories.map((val: Category) => (
+                          // <Badge colorScheme='facebook' px='4' mr='2' mb='2' key={val.id}>{val.title}</Badge>
+                          <Button mr='2' mb='2' size='sm' key={val.id} onClick={() => router.push(`/category/${val.id}`)}>{val.title}</Button>
+                      ))}
+                  </Box>
+                  <OutlineButton onClick={onOpen} >Add Category</OutlineButton>
+                  <CategoryModal isOpen={isOpen} onClose={onClose} />
+                </Flex>
                 <Divider />
                 <Flex direction='column' gap='2'>
                     <Text fontWeight='semibold' mb='2'>

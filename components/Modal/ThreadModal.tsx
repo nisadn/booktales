@@ -14,10 +14,12 @@ interface IThreadModal {
     isUpdate?: boolean;
     defaultTitle?: string;
     defaultCategory?: string;
+    withStarter?: boolean;
+    defaultStarter?: string;
 }
 
 const ThreadModal: React.FC<IThreadModal> = (props) => {
-    const { isOpen, onClose, isUpdate, defaultTitle, defaultCategory } = props;
+    const { isOpen, onClose, isUpdate, defaultTitle, defaultCategory, withStarter, defaultStarter } = props;
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [ loadSubmit, setLoadSubmit ] = useState(false);
@@ -28,7 +30,7 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} size='xl'>
             <ModalOverlay />
             <ModalContent px='4' py='2' textAlign='center'>
             <ModalHeader fontSize='lg' pb='1'>
@@ -65,17 +67,18 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
                     <FormErrorMessage>This field is required</FormErrorMessage>
                 </FormControl>
 
-                {!isUpdate && 
+                {!isUpdate || withStarter ? 
                     <FormControl mt={4} isInvalid={errors.starter_post !== undefined}>
                         <FormLabel fontWeight={'semibold'}>Starter Post</FormLabel>
                         <Textarea
+                            defaultValue={defaultStarter}
                             placeholder='Write post here'
                             minHeight={['200px','200px','150px']}
                             {...register("starter_post", {required: true})}
                         />
                         <FormErrorMessage>This field is required</FormErrorMessage>
                     </FormControl>
-                }
+                : <></>}
             </ModalBody>
 
             <ModalFooter justifyContent='center' gap='4'>

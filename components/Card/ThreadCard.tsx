@@ -4,6 +4,7 @@ import CustomIcon from "../Icon/CustomIcon";
 import { GoCommentDiscussion } from "react-icons/go";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { ThreadModal, RemoveModal } from "../Modal";
+import { useRouter } from "next/router";
 
 type Category = {
     id: string,
@@ -22,13 +23,14 @@ type Thread = {
 const ThreadCard = ({thread}: {thread: Thread}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen:isOpenEdit, onOpen:onOpenEdit, onClose:onCloseEdit } = useDisclosure();
+    const router = useRouter();
 
     return (
         <Flex direction='column' p='6' boxShadow='md' borderRadius='md' gap='1'>
             <Text fontWeight='semibold' fontSize='sm' color='green.500'>@{thread.author}</Text>
             <Text fontWeight='semibold' fontSize='xl'>{thread.title}</Text>
-            <Link>
-            <Flex color='gray.500' fontSize='sm' >
+            <Link onClick={() => router.push(`/thread/${thread.id}`)} w='fit-content'>
+            <Flex color='gray.500' fontSize='sm' w='fit-content' >
                 See more
                 <Icon as={IoIosArrowRoundForward} w='5' h='full'/>
             </Flex>

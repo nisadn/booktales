@@ -27,7 +27,7 @@ const SideBar: React.FC<ISideBar> = (props) => {
             </Flex>
             <Divider />
             <Flex justify={'center'}>
-                <MenuIcon icon={BiEdit} label='Add Thread' onClick={onOpen} />
+                <MenuIcon icon={BiEdit} label='Create Thread' onClick={onOpen} />
                 <ThreadModal isOpen={isOpen} onClose={onClose} />
             </Flex>
             </Flex>
