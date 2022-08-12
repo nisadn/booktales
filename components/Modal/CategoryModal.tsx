@@ -1,4 +1,4 @@
-import { FormControl, FormErrorMessage, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import { FormControl, FormErrorMessage, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { OutlineButton, PrimaryButton } from "../Button";
 import { useForm } from 'react-hook-form';
@@ -20,7 +20,7 @@ const CategoryModal: React.FC<ICategoryModal> = (props) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size='sm'>
+        <Modal isOpen={isOpen} onClose={onClose} size={['xs','sm','sm']}>
             <ModalOverlay />
             <ModalContent px='4' py='2' textAlign='center'>
             <ModalHeader fontSize='lg' pb='1'>

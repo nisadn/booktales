@@ -30,7 +30,7 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size='xl'>
+        <Modal isOpen={isOpen} onClose={onClose} size={['xs','lg','xl']}>
             <ModalOverlay />
             <ModalContent px='4' py='2' textAlign='center'>
             <ModalHeader fontSize='lg' pb='1'>

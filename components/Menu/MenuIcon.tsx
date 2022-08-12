@@ -13,7 +13,7 @@ const MenuIcon: React.FC<IMenuIcon> = (props) => {
     const { icon, label, color, isActive, onClick } = props;
 
     return (
-        <Tooltip hasArrow label={label} placement='right'>
+        <Tooltip hasArrow label={label} placement='right' display={['none','block','block']}>
             <IconButton 
                 aria-label={label} 
                 icon={<Icon as={icon} w='6' h='6' />} 

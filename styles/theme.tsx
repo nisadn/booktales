@@ -7,9 +7,14 @@ const breakpoints = {
   lg: '64em'
 }
 
+const shadows = {
+  custom: '0px 0px 8px 1px #E2E2E2'
+}
+
 // 2. Call `extendTheme` and pass your custom values
 const customTheme = extendTheme({
   breakpoints,
+  shadows,
 })
 
 export default customTheme;

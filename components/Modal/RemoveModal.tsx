@@ -11,7 +11,7 @@ const RemoveModal: React.FC<IModal> = (props) => {
     const { isOpen, onClose } = props;
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} size={['xs','md','md']}>
             <ModalOverlay />
             <ModalContent px='4' py='2' textAlign='center'>
             <ModalHeader fontSize='lg' pb='1'>

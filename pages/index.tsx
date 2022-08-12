@@ -14,7 +14,7 @@ const Home = () => {
 
       <Layout page='home'>
         <Flex direction='column'>
-          <Text as='span' fontSize='4xl' fontWeight='bold'>Welcome to
+          <Text as='span' fontSize={['3xl','4xl','4xl']} fontWeight='bold'>Welcome to
           <Text as='span'
             bgGradient='linear(to-r, green.300, blue.500)'
             bgClip='text'

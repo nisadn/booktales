@@ -35,14 +35,14 @@ const Account: React.FC<AccountProps> = (props) => {
         </Head>
 
         <Flex w='screen' direction='column' textAlign='center' gap='6' p='14' align='center'>
-            <Flex align='center' w='full' justify='center' gap='6'>
-                <Flex w='80px' h='80px' pt='2' >
+            <Flex align='center' w='full' justify='center' gap={[4,6,6]}>
+                <Flex w={['60px','80px','80px']} h={['60px','80px','80px']} pt='2' >
                     <StyledLogo />
                 </Flex>
                 <Text as='span'
                     bgGradient='linear(to-r, green.300, blue.500)'
                     bgClip='text'
-                    fontSize='5xl' 
+                    fontSize={['4xl','5xl','5xl']}
                     fontWeight='bold'
                     w='fit-content'
                     align='center'
@@ -95,10 +95,10 @@ const Account: React.FC<AccountProps> = (props) => {
                 {isRegister ? 'Register' : 'Login'}
             </PrimaryButton>
 
-            <Text as='span' fontSize='sm' mt='4' >
+            <Text fontSize='sm' mt='4' >
                 {isRegister ? "Already have an account? " : "Don't have an account yet? "}
                 <Link onClick={() => router.push(isRegister ? '/login' : '/register')}>
-                    <Text as='span' color='blue.600' fontWeight='semibold' >
+                    <Text color='blue.600' fontWeight='semibold' >
                         {isRegister ? 'Login': 'Register'} here!
                     </Text>
                 </Link>

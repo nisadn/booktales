@@ -23,7 +23,7 @@ const PostModal: React.FC<IPostModal> = (props) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size='xl'>
+        <Modal isOpen={isOpen} onClose={onClose} size={['xs','lg','xl']}>
             <ModalOverlay />
             <ModalContent px='4' py='2' textAlign='center'>
             <ModalHeader fontSize='lg' pb='1'>
@@ -35,7 +35,7 @@ const PostModal: React.FC<IPostModal> = (props) => {
                 <Textarea
                     defaultValue={defaultContent}
                     placeholder='Write here'
-                    minHeight={['200px','200px','150px']}
+                    minHeight={['300px','200px','150px']}
                     {...register("content", {required: true})}
                 />
                 <FormErrorMessage>This field is required</FormErrorMessage>

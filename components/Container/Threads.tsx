@@ -17,7 +17,7 @@ type Thread = {
 
 const Threads = () => {
     return (
-        <Flex direction='column' mt='10' gap='10'>
+        <Flex direction='column' mt='8' gap='10'>
             {threads.map((val: Thread) => (
                 <ThreadCard thread={val} key={val.id} />
             ))}
