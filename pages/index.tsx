@@ -1,6 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import { Threads } from '../components/Container'
+import Ads from '../components/Container/Ads'
 import Layout from '../components/Layout/Layout'
 
 const Home = () => {
@@ -23,7 +24,7 @@ const Home = () => {
           !</Text>
           <Text fontSize='lg' fontWeight='medium'>Where everyone can share anything about books.</Text>
         </Flex>
-        <Threads />
+        <Ads />
       </Layout>
 
     </div>

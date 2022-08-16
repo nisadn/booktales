@@ -19,7 +19,7 @@ const RightContent = () => {
       </Text>
       <Divider />
       <Flex direction='column' gap='2'>
-        <Text fontWeight='semibold' mb='2'>See Threads Based on Category</Text>
+        <Text fontWeight='semibold' mb='2'>Choose category to see threads</Text>
         <Box w='full' lineHeight={7} >
             {categories.map((val: Category) => (
                 // <Badge colorScheme='facebook' px='4' mr='2' mb='2' key={val.id}>{val.title}</Badge>

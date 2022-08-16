@@ -51,7 +51,7 @@ const Account: React.FC<AccountProps> = (props) => {
             </Flex>
             
             <form onSubmit={handleSubmit(onSubmit)}>
-            <Flex direction='column' w='fit-content' px='10' py='8' 
+            <Flex direction='column' w='fit-content' px={[6,10,10]} py='8' 
                 boxShadow='md' 
                 borderRadius='lg' 
                 bg='gray.100'
