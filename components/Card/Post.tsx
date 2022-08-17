@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Divider, Flex, Icon, Link, Text, useDisclosure } from "@chakra-ui/react";
 import CustomIcon from "../Icon/CustomIcon";
 import { RemoveModal } from "../Modal";
 import { TbArrowBigUpLine, TbArrowBigDownLine } from 'react-icons/tb';
@@ -10,11 +10,13 @@ import { OutlineButton } from "../Button";
 
 type Post = {
     id: string;
-    author: string;
     content: string;
-    reply: Post[];
-    upvote: number;
     downvote: number;
+    upvote: number;
+    replyId: string;
+    owner: string;
+    isStarter: boolean;
+    edited: boolean;
 }
 
 const PostDetails = ({ post }: { post : Post }) => {
@@ -23,8 +25,13 @@ const PostDetails = ({ post }: { post : Post }) => {
     const { isOpen:isOpenReply, onOpen:onOpenReply, onClose:onCloseReply } = useDisclosure();
 
     return (
-        <Flex direction='column' >
-            <Text fontWeight='semibold' fontSize='sm' color='green.500'>@{post.author}</Text>
+        <Flex direction='column' id={post.id} >
+            {post.replyId !== "" && 
+                <Text fontWeight='semibold' fontSize='sm' color='green.500'>reply to{' '}
+                    <Link href={`#${post.replyId}`}>{post.replyId}</Link>
+                </Text>
+            }
+            <Text fontWeight='bold' fontSize='sm' >ID {post.id}</Text>
             <Text >{post.content}</Text>
 
             <Flex gap='1' align='center' justify='flex-end' fontSize='xs' fontWeight='medium' my='2' >
@@ -43,12 +50,12 @@ const PostDetails = ({ post }: { post : Post }) => {
                 <RemoveModal isOpen={isOpen} onClose={onClose} />
             </Flex>
             
-            {post.reply.map((val: Post) => (
+            {/* {post.reply.map((val: Post) => (
                 <Flex direction='column' pl='8' key={val.id}>
                     <Box h='2px' bg='gray.200' mb='4' mt='2' />
                     <PostDetails post={val} />
                 </Flex>
-            ))}
+            ))} */}
         </Flex>
     )
 }

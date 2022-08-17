@@ -5,60 +5,55 @@ import { BiEditAlt, BiTrash } from "react-icons/bi";
 import { GoCommentDiscussion } from "react-icons/go";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { OutlineButton, PrimaryButton } from "../Button";
+import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
-type Category = {
+interface IThread {
     id: string;
-    title: string;
+    name: string;
+    count: number;
 }
 
-type StarterPost = {
-    id: string;
-    content: string;
-}
-
-type StarterThread = {
-    id: string;
-    title: string;
-    author: string;
-    category: Category;
-    starter_post: StarterPost;
-}
-
-const ThreadStarter = ({thread}: {thread: StarterThread}) => {
+const ThreadStarter: React.FC<IThread> = (props) => {
+    const { id, name, count } = props;
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen:isOpenEdit, onOpen:onOpenEdit, onClose:onCloseEdit } = useDisclosure();
     const { isOpen:isOpenPost, onOpen:onOpenPost, onClose:onClosePost } = useDisclosure();
 
+    const selectedCat = useSelector((state: RootState) => state.selectedCat.value.name);
+
     return (
         <>
         <Flex direction='column' pt='2'>
-            <Text fontWeight='medium' color='blue.600'>@{thread.author}</Text>
+            {/* <Text fontWeight='medium' color='blue.600'>@{thread.author}</Text> */}
             <Text as='span' fontSize='2xl' fontWeight='bold'>
-                {thread.title}
+                {name}
             </Text>
             </Flex>
-            <Flex gap='4' direction='column' mt='4'>
-                <Text>
-                    {thread.starter_post.content}
-                </Text>                
+            <Flex gap='4' direction='column' >
             
                 <Flex justify='space-between'>
-                    <Box>
-                        <Badge colorScheme='blue' mr='2' >{thread.category.title}</Badge>
-                    </Box>
+                    {selectedCat !== "" &&
+                        <Box>
+                            <Badge colorScheme='blue' mr='2' >
+                                {selectedCat}
+                            </Badge>
+                        </Box>
+                    }
                     <Flex gap='1' align='center' justify='flex-end'>
                         <Icon color='gray.500' as={GoCommentDiscussion} w='5' h='5' ml='2'/>
-                        <Text fontSize='sm' ml='1'>400</Text>
+                        <Text fontSize='sm' ml='1'>{count}</Text>
                         <CustomIcon as={BiEditAlt} color='blue.500' activeCol="blue.700" ml='2' onClick={onOpenEdit} />
                         <ThreadModal 
                             isOpen={isOpenEdit} 
                             onClose={onCloseEdit} 
                             isUpdate 
-                            defaultTitle={thread.title} 
-                            defaultCategory={thread.category.id} 
-                            withStarter
-                            defaultStarter={thread.starter_post.content}
+                            defaultTitle={name} 
+                            // defaultCategory={thread.category.id} 
+                            // withStarter
+                            // defaultStarter={thread.starter_post.content}
                         />
                         <CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
                         <RemoveModal isOpen={isOpen} onClose={onClose} />

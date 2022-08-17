@@ -1,10 +1,18 @@
-import { Box, Button, Flex, Icon, Text, Wrap } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Wrap } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { BsCircle } from 'react-icons/bs';
-import { OutlineButton } from "../Button";
+import { useDispatch, useSelector } from "react-redux";
+import { select } from "../../redux/features/category/selectedCatSlice";
+import { RootState } from "../../redux/store";
+
+type Category = {
+    id: string;
+    name: string;
+}
 
 const Ads = () => {
     const router = useRouter();
+    const categories = useSelector((state: RootState) => state.category.value);
+    const dispatch = useDispatch();
     
     return (
         <Flex direction='column' mt='8' gap='10'>
@@ -27,8 +35,11 @@ const Ads = () => {
                             variant='outline' 
                             border='2px'
                             key={c.id} 
-                            onClick={() => router.push(`/category/${c.id}`)}
-                        >{c.title}</Button>        
+                            onClick={() => {
+                                dispatch(select(c));
+                                router.push(`/category/${c.id}`);
+                            }}
+                        >{c.name}</Button>        
                     ))}
                 </Wrap>
             </Flex>
@@ -38,34 +49,34 @@ const Ads = () => {
 
 export default Ads;
 
-type Category = {
-    id: string,
-    title: string,
-}
+// type Category = {
+//     id: string,
+//     title: string,
+// }
 
-const categories: Category[] = [{
-    id: '1',
-    title: "Fiction",
-  },{
-    id: '2',
-    title: "Non-Fiction",
-  },{
-    id: '3',
-    title: "Biography",
-  },{
-    id: '4',
-    title: "Drama",
-  },{
-    id: '5',
-    title: "Romance",
-  },{
-    id: '6',
-    title: "Adventure",
-  },{
-    id: '7',
-    title: "Scifi",
-  },{
-    id: '8',
-    title: "Fantasy",
-  }
-]
+// const categories: Category[] = [{
+//     id: '1',
+//     title: "Fiction",
+//   },{
+//     id: '2',
+//     title: "Non-Fiction",
+//   },{
+//     id: '3',
+//     title: "Biography",
+//   },{
+//     id: '4',
+//     title: "Drama",
+//   },{
+//     id: '5',
+//     title: "Romance",
+//   },{
+//     id: '6',
+//     title: "Adventure",
+//   },{
+//     id: '7',
+//     title: "Scifi",
+//   },{
+//     id: '8',
+//     title: "Fantasy",
+//   }
+// ]

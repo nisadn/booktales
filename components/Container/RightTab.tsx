@@ -1,11 +1,21 @@
 import { Box, Button, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { select } from "../../redux/features/category/selectedCatSlice";
+import { RootState } from "../../redux/store";
 import { OutlineButton, PrimaryButton } from "../Button";
 import { CategoryModal } from "../Modal";
 
+type Category = {
+  id: string;
+  name: string;
+}
+
 const RightContent = () => {
   const router = useRouter();
+  const categories = useSelector((state: RootState) => state.category.value);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
 
   return (
     <Flex direction='column' w='full' overflowY='auto' h={['screen','100vh','100vh']} py='6' px='8' gap='4' >
@@ -23,7 +33,10 @@ const RightContent = () => {
         <Box w='full' lineHeight={7} >
             {categories.map((val: Category) => (
                 // <Badge colorScheme='facebook' px='4' mr='2' mb='2' key={val.id}>{val.title}</Badge>
-                <Button mr='2' mb='2' size='sm' key={val.id} onClick={() => router.push(`/category/${val.id}`)}>{val.title}</Button>
+                <Button mr='2' mb='2' size='sm' key={val.id} onClick={() => {
+                  dispatch(select(val));
+                  router.push(`/category/${val.id}`);
+                }}>{val.name}</Button>
             ))}
         </Box>
         <OutlineButton onClick={onOpen} size={['sm', 'sm', 'md']} >Add Category</OutlineButton>
@@ -55,34 +68,34 @@ const RightTab = () => {
 export default RightTab;
 export { RightContent };
 
-type Category = {
-    id: string,
-    title: string,
-}
+// type Category = {
+//     id: string,
+//     title: string,
+// }
 
-const categories: Category[] = [{
-    id: '1',
-    title: "Fiction",
-  },{
-    id: '2',
-    title: "Non-Fiction",
-  },{
-    id: '3',
-    title: "Biography",
-  },{
-    id: '4',
-    title: "Drama",
-  },{
-    id: '5',
-    title: "Romance",
-  },{
-    id: '6',
-    title: "Adventure",
-  },{
-    id: '7',
-    title: "Scifi",
-  },{
-    id: '8',
-    title: "Fantasy",
-  }
-]
+// const categories: Category[] = [{
+//     id: '1',
+//     title: "Fiction",
+//   },{
+//     id: '2',
+//     title: "Non-Fiction",
+//   },{
+//     id: '3',
+//     title: "Biography",
+//   },{
+//     id: '4',
+//     title: "Drama",
+//   },{
+//     id: '5',
+//     title: "Romance",
+//   },{
+//     id: '6',
+//     title: "Adventure",
+//   },{
+//     id: '7',
+//     title: "Scifi",
+//   },{
+//     id: '8',
+//     title: "Fantasy",
+//   }
+// ]

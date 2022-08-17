@@ -1,8 +1,9 @@
-import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link, Text } from "@chakra-ui/react"
+import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link, Text, useQuery } from "@chakra-ui/react"
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { authApi } from "../../config/service/authApi";
 import { PrimaryButton } from "../Button";
 import { StyledLogo } from "../StyledComponents/Styled";
 
@@ -17,8 +18,12 @@ const Account: React.FC<AccountProps> = (props) => {
     const [ loadSubmit, setLoadSubmit ] = useState(false);
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
-
+    
     const onSubmit = (data: any) => {
+        // const login = async () => {
+        //     authApi.login()
+        // }
+        // const { data, isLoading } = useQuery('auth', authApi.login(data));
         // setLoadSubmit(true);
         console.log(data);
         if (!isRegister) {

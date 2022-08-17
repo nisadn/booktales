@@ -11,10 +11,64 @@ import CustomIcon from "../../components/Icon/CustomIcon";
 import { RemoveModal, ThreadModal } from "../../components/Modal";
 import ThreadStarter from "../../components/Container/ThreadStarter";
 import Posts from "../../components/Container/Posts";
+import { threadApi } from "../../config/service/threadApi";
+import React, { useEffect, useState } from "react";
+import { useQuery, UseQueryResult } from "react-query";
+import { axiosClient } from "../../config/apiClient";
 
-const ThreadDetailPage = () => {
-    const router = useRouter();
-    const id = router.query.id;
+type Post = {
+    id: string;
+    content: string;
+    downvote: number;
+    upvote: number;
+    replyId: string;
+    owner: string;
+    isStarter: boolean;
+    edited: boolean;
+}
+
+interface IPostPage {
+    posts: Post[];
+    id: string;
+    name: string;
+}
+
+type TParsePost = {
+    id: string;
+    post: Post;
+}
+
+export async function getServerSideProps(context: any) {
+  const { id } = context.query;
+  const res = await axiosClient.get(`/thread/${id}`);
+//   console.log(context.path);
+  return {
+    props: {
+      posts: res.data.data,
+      id: id,
+      name: res.data.name,
+    }
+  }
+};
+
+
+const ThreadDetailPage: React.FC<IPostPage> = (props) => {
+    const { posts, id, name } = props;
+    const [ count, setCount ] = useState<number>(0);
+    useEffect(() => {
+        setCount(posts.length);
+    }, [posts]);
+    // const router = useRouter();
+    // const id = router.query.id;
+
+    // async function fetchApi() {
+    //     await threadApi.get(id).then((res) => {
+    //         console.log(res);
+    //     })
+    // }
+
+//   const { status, error, data }: UseQueryResult<Array<Thread>> = useQuery<Array<Thread>>('threads', fetchApi(id));
+    // const { data, isLoading }: UseQueryResult<Array<Thread>> = useQuery<Array<Thread>>('threads', fetchApi(id));
 
     return (
         <div>
@@ -25,8 +79,9 @@ const ThreadDetailPage = () => {
             </Head>
 
             <Layout page='details'>
-                <ThreadStarter thread={starter_thread} />
-                <Posts />
+                <ThreadStarter id={id} name={name} count={count} />
+                {/* <Posts /> */}
+                <Posts posts={posts} />
             </Layout>
 
         </div>

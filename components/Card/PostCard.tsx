@@ -3,11 +3,13 @@ import PostDetails from "./Post";
 
 type Post = {
     id: string;
-    author: string;
     content: string;
-    reply: Post[];
-    upvote: number;
     downvote: number;
+    upvote: number;
+    replyId: string;
+    owner: string;
+    isStarter: boolean;
+    edited: boolean;
 }
 
 const PostCard = ({ post }: { post: Post }) => {
