@@ -27,8 +27,12 @@ type Post = {
     edited: boolean;
 }
 
+type RPost = Post & {
+    reply: RPost[],
+}
+
 interface IPostPage {
-    posts: Post[];
+    posts: RPost[];
     id: string;
     name: string;
 }
@@ -41,10 +45,20 @@ type TParsePost = {
 export async function getServerSideProps(context: any) {
   const { id } = context.query;
   const res = await axiosClient.get(`/thread/${id}`);
-//   console.log(context.path);
+  const data = res.data.data;
+  const posts: { [id: string] : RPost; } = {};
+
+  data.forEach((post: Post) => {
+    if (post.replyId === '') {
+        posts[post.id] = {...post, reply: []};
+    } else {
+        posts[post.replyId].reply.push({...post, reply: []});
+    }
+  })
+
   return {
     props: {
-      posts: res.data.data,
+      posts: Object.values(posts),
       id: id,
       name: res.data.name,
     }

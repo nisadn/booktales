@@ -1,10 +1,10 @@
 import { Flex } from "@chakra-ui/react";
 import PostCard from "../Card/PostCard";
 
-const Posts = ({ posts }: { posts: Post[]}) => {
+const Posts = ({ posts }: { posts: RPost[]}) => {
     return (
         <Flex direction='column' mt='10' gap='10'>
-            { posts.map((post: Post, index: number) => (
+            { posts.map((post: RPost, index: number) => (
                 <PostCard post={post} key={index}/>
             ))}
             {/* <PostCard post={post2}/> */}
@@ -25,6 +25,11 @@ type Post = {
     isStarter: boolean;
     edited: boolean;
 }
+
+type RPost = Post & {
+    reply: RPost[],
+}
+
 // const content = "Penguins are flightless seabirds that live almost exclusively below the equator. Some island-dwellers can be found in warmer climates, but most—including emperor, adélie, chinstrap, and gentoo penguins—reside in and around icy Antarctica. Penguins are flightless seabirds that live almost exclusively below the equator."
 
 // const post: Post = {

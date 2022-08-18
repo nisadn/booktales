@@ -12,7 +12,11 @@ type Post = {
     edited: boolean;
 }
 
-const PostCard = ({ post }: { post: Post }) => {
+type RPost = Post & {
+    reply: RPost[],
+}
+
+const PostCard = ({ post }: { post: RPost }) => {
     return (
         <Flex direction='column' py='2' px='4' boxShadow='md' borderRadius='md' gap='1'>
             <PostDetails post={post} />

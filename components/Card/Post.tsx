@@ -19,20 +19,24 @@ type Post = {
     edited: boolean;
 }
 
-const PostDetails = ({ post }: { post : Post }) => {
+type RPost = Post & {
+    reply: RPost[],
+}
+
+const PostDetails = ({ post }: { post : RPost }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen:isOpenEdit, onOpen:onOpenEdit, onClose:onCloseEdit } = useDisclosure();
     const { isOpen:isOpenReply, onOpen:onOpenReply, onClose:onCloseReply } = useDisclosure();
 
     return (
         <Flex direction='column' id={post.id} >
-            {post.replyId !== "" && 
+            {/* {post.replyId !== "" && 
                 <Text fontWeight='semibold' fontSize='sm' color='green.500'>reply to{' '}
                     <Link href={`#${post.replyId}`}>{post.replyId}</Link>
                 </Text>
             }
-            <Text fontWeight='bold' fontSize='sm' >ID {post.id}</Text>
-            <Text >{post.content}</Text>
+            <Text fontWeight='bold' fontSize='sm' >ID {post.id}</Text> */}
+            <Text pt='2' px='2'>{post.content}</Text>
 
             <Flex gap='1' align='center' justify='flex-end' fontSize='xs' fontWeight='medium' my='2' >
                 <OutlineButton size='xs' pr='3' onClick={onOpenReply}>
@@ -50,12 +54,12 @@ const PostDetails = ({ post }: { post : Post }) => {
                 <RemoveModal isOpen={isOpen} onClose={onClose} />
             </Flex>
             
-            {/* {post.reply.map((val: Post) => (
+            {post.reply.map((val: RPost) => (
                 <Flex direction='column' pl='8' key={val.id}>
                     <Box h='2px' bg='gray.200' mb='4' mt='2' />
                     <PostDetails post={val} />
                 </Flex>
-            ))} */}
+            ))}
         </Flex>
     )
 }
