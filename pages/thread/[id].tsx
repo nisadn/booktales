@@ -35,6 +35,7 @@ interface IPostPage {
     posts: RPost[];
     id: string;
     name: string;
+    count: number;
 }
 
 type TParsePost = {
@@ -61,25 +62,14 @@ export async function getServerSideProps(context: any) {
       posts: Object.values(posts),
       id: id,
       name: res.data.name,
+      count: data.length,
     }
   }
 };
 
 
 const ThreadDetailPage: React.FC<IPostPage> = (props) => {
-    const { posts, id, name } = props;
-    const [ count, setCount ] = useState<number>(0);
-    useEffect(() => {
-        setCount(posts.length);
-    }, [posts]);
-    // const router = useRouter();
-    // const id = router.query.id;
-
-    // async function fetchApi() {
-    //     await threadApi.get(id).then((res) => {
-    //         console.log(res);
-    //     })
-    // }
+    const { posts, id, name, count } = props;
 
 //   const { status, error, data }: UseQueryResult<Array<Thread>> = useQuery<Array<Thread>>('threads', fetchApi(id));
     // const { data, isLoading }: UseQueryResult<Array<Thread>> = useQuery<Array<Thread>>('threads', fetchApi(id));
@@ -94,7 +84,6 @@ const ThreadDetailPage: React.FC<IPostPage> = (props) => {
 
             <Layout page='details'>
                 <ThreadStarter id={id} name={name} count={count} />
-                {/* <Posts /> */}
                 <Posts posts={posts} />
             </Layout>
 

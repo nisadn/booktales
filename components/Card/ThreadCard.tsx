@@ -5,6 +5,8 @@ import { GoCommentDiscussion } from "react-icons/go";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { ThreadModal, RemoveModal } from "../Modal";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 type Thread = {
     id: string;
@@ -15,6 +17,8 @@ const ThreadCard = ({thread}: {thread: Thread}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen:isOpenEdit, onOpen:onOpenEdit, onClose:onCloseEdit } = useDisclosure();
     const router = useRouter();
+    const isLogin = useSelector((state: RootState) => state.auth.isLogin);
+    const role = useSelector((state: RootState) => state.auth.account.role);
 
     return (
         <Flex direction='column' p='6' boxShadow='md' borderRadius='md' gap='1'>
@@ -39,8 +43,8 @@ const ThreadCard = ({thread}: {thread: Thread}) => {
                     <ThreadModal isOpen={isOpenEdit} onClose={onCloseEdit} isUpdate defaultTitle={thread.name} 
                         // defaultCategory={thread.category.id} 
                     />
-                    <CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
-                    <RemoveModal isOpen={isOpen} onClose={onClose} />
+                    {isLogin && role === 'admin' && <><CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
+                    <RemoveModal isOpen={isOpen} onClose={onClose} /></>}
                 </Flex>
             </Flex>
             

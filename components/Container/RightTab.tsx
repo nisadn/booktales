@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Text, useDisclosure, Wrap } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { select } from "../../redux/features/category/selectedCatSlice";
@@ -16,18 +16,20 @@ const RightContent = () => {
   const categories = useSelector((state: RootState) => state.category.value);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
+  const isLogin = useSelector((state: RootState) => state.auth.isLogin);
+  const account = useSelector((state: RootState) => state.auth.account);
 
   return (
     <Flex direction='column' w='full' overflowY='auto' h={['screen','100vh','100vh']} py='6' px='8' gap='4' >
-      <Text as='span'
+      { isLogin && <><Text as='span'
           bgGradient='linear(to-l, purple.600, blue.500)'
           bgClip='text'
           fontWeight='extrabold'
           fontSize='xl'
           w='fit-content'
-      >@nis.adn
+      >@{account.username}
       </Text>
-      <Divider />
+      <Divider /></>}
       <Flex direction='column' gap='2'>
         <Text fontWeight='semibold' mb='2'>Choose category to see threads</Text>
         <Box w='full' lineHeight={7} >
@@ -39,17 +41,22 @@ const RightContent = () => {
                 }}>{val.name}</Button>
             ))}
         </Box>
-        <OutlineButton onClick={onOpen} size={['sm', 'sm', 'md']} >Add Category</OutlineButton>
+        {isLogin && account.role === 'admin' && <><PrimaryButton onClick={onOpen} size={['sm', 'sm', 'md']} >Add Category</PrimaryButton>
+        <OutlineButton onClick={() => router.push('/')} size={['sm', 'sm', 'md']}>
+        <Text whiteSpace='normal'>
+          Manage Category
+        </Text>
+        </OutlineButton></>}
         <CategoryModal isOpen={isOpen} onClose={onClose} />
       </Flex>
       <Divider />
-      <Flex direction='column' gap='2'>
+      {!isLogin && <Flex direction='column' gap='2'>
           <Text fontWeight='semibold' mb='2'>
               Login/register for more experience!
           </Text>
           <PrimaryButton onClick={() => router.push('/login')}>Login</PrimaryButton>
           <OutlineButton onClick={() => router.push('/register')}>Get Started</OutlineButton>
-      </Flex>
+      </Flex>}
   </Flex>
   )
 }

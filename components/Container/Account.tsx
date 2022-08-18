@@ -1,11 +1,14 @@
-import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link, Text, useQuery } from "@chakra-ui/react"
+import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link, Radio, RadioGroup, Stack, Text, useToast } from "@chakra-ui/react"
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { useMutation, UseMutationResult, useQuery, UseQueryResult } from "react-query";
+import { useDispatch } from "react-redux";
 import { authApi } from "../../config/service/authApi";
 import { PrimaryButton } from "../Button";
 import { StyledLogo } from "../StyledComponents/Styled";
+import { login } from '../../redux/features/auth/authSlice';
 
 interface AccountProps {
     isRegister?: boolean;
@@ -14,22 +17,73 @@ interface AccountProps {
 const Account: React.FC<AccountProps> = (props) => {
     const { isRegister } = props;
     const router = useRouter();
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const [ loadSubmit, setLoadSubmit ] = useState(false);
+    const { register, handleSubmit, formState: { errors }, control } = useForm();
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
+
+    const dispatch = useDispatch();
+    const toast = useToast();
+    
+    const postLogin = async (data: AccountReq) => {
+        const res = await authApi.login(data)
+        return res;
+    }
+
+    const postRegister = async (data: RegisterReq) => {
+        const res = await authApi.register(data);
+        return res;
+    }
+
+    const mutation: UseMutationResult<LoginResp, Error, AccountReq> = useMutation<LoginResp, Error, AccountReq>(postLogin, {
+        onError: () => {
+            toast({
+                title: 'Wrong username or password',
+                status: 'error',
+                variant: 'left-accent',
+                position: 'top',
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    });
+    const mutationRegister: UseMutationResult<RegisterResp, Error, RegisterReq> = useMutation<RegisterResp, Error, RegisterReq>(postRegister, {
+        onError: () => {
+            toast({
+                title: 'Username already exists',
+                status: 'error',
+                variant: 'left-accent',
+                position: 'top',
+                duration: 3000,
+                isClosable: true,
+            });
+        },
+        onSuccess: () => {
+            toast({
+                title: "Registration success",
+                variant: 'left-accent',
+                position: 'top',
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    });
     
     const onSubmit = (data: any) => {
-        // const login = async () => {
-        //     authApi.login()
-        // }
-        // const { data, isLoading } = useQuery('auth', authApi.login(data));
-        // setLoadSubmit(true);
-        console.log(data);
-        if (!isRegister) {
-            router.push('/');
-        }
-    };
+        if (isRegister) {
+            mutationRegister.mutate(data);
+        } else {
+            mutation.mutate(data);
+        } 
+    }
+    
+    if (mutationRegister.isSuccess) {
+        router.push('/login');
+    } 
+    
+    if (mutation.isSuccess) {
+        dispatch(login(mutation.data));
+        router.push('/');
+    } 
 
     return (
         <>
@@ -96,7 +150,27 @@ const Account: React.FC<AccountProps> = (props) => {
                     <FormErrorMessage>This field is required</FormErrorMessage>
                 </FormControl>
 
-            <PrimaryButton px='10' type='submit' isLoading={loadSubmit} mt='6' >
+                {isRegister && <FormControl mt={4} 
+                    isInvalid={errors.role !== undefined}
+                >
+                    <FormLabel fontWeight={'semibold'}>Role</FormLabel>
+                    <Controller name='role' control={control} rules={{ required: true }}
+                        render={({ field: { onChange, value } }) => (
+                            <RadioGroup 
+                                onChange={onChange} 
+                                value={value} 
+                            >
+                            <Stack direction='row' gap='3'>
+                                <Radio value='user' borderColor='gray.400'>User</Radio>
+                                <Radio value='admin' borderColor='gray.400'>Admin</Radio>
+                            </Stack>
+                            </RadioGroup>
+                            )}
+                    />
+                    <FormErrorMessage>This field is required</FormErrorMessage>
+                </FormControl>}
+
+            <PrimaryButton px='10' type='submit' isLoading={mutation.isLoading || mutationRegister.isLoading} mt='6' >
                 {isRegister ? 'Register' : 'Login'}
             </PrimaryButton>
 
@@ -117,3 +191,25 @@ const Account: React.FC<AccountProps> = (props) => {
 }
 
 export default Account;
+
+type AccountReq = {
+    username: string;
+    password: string;
+}
+
+type AccountResp = {
+    username: string;
+    role: string;
+}
+
+type LoginResp = AccountResp & {
+    token: string;
+}
+
+type RegisterReq = AccountReq & {
+    role: string;
+}
+
+type RegisterResp = AccountResp & {
+    id: string;
+}

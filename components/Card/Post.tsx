@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Icon, Link, Text, useDisclosure } from "@chakra-ui/react";
+import { Badge, Box, Divider, Flex, Icon, Link, Text, useDisclosure } from "@chakra-ui/react";
 import CustomIcon from "../Icon/CustomIcon";
 import { RemoveModal } from "../Modal";
 import { TbArrowBigUpLine, TbArrowBigDownLine } from 'react-icons/tb';
@@ -7,6 +7,8 @@ import React from "react";
 import { PostModal } from "../Modal";
 import { BsReply } from 'react-icons/bs';
 import { OutlineButton } from "../Button";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 type Post = {
     id: string;
@@ -27,16 +29,22 @@ const PostDetails = ({ post }: { post : RPost }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen:isOpenEdit, onOpen:onOpenEdit, onClose:onCloseEdit } = useDisclosure();
     const { isOpen:isOpenReply, onOpen:onOpenReply, onClose:onCloseReply } = useDisclosure();
+    const isLogin = useSelector((state: RootState) => state.auth.isLogin);
+    const role = useSelector((state: RootState) => state.auth.account.role);
 
     return (
-        <Flex direction='column' id={post.id} >
-            {/* {post.replyId !== "" && 
-                <Text fontWeight='semibold' fontSize='sm' color='green.500'>reply to{' '}
-                    <Link href={`#${post.replyId}`}>{post.replyId}</Link>
+        <Flex direction='column' id={post.id} px='2'>
+            {post.isStarter && 
+                <Badge w='fit-content' fontWeight='semibold' fontSize='sm' colorScheme="green" mb='2'>
+                    Starter Post
+                </Badge>
+            }
+            <Text>{post.content}</Text>
+            {post.edited && 
+                <Text fontWeight='semibold' fontSize='sm' color='gray.400'>
+                    (edited)
                 </Text>
             }
-            <Text fontWeight='bold' fontSize='sm' >ID {post.id}</Text> */}
-            <Text pt='2' px='2'>{post.content}</Text>
 
             <Flex gap='1' align='center' justify='flex-end' fontSize='xs' fontWeight='medium' my='2' >
                 <OutlineButton size='xs' pr='3' onClick={onOpenReply}>
@@ -50,8 +58,8 @@ const PostDetails = ({ post }: { post : RPost }) => {
                 <Text color='gray.500'>{post.downvote}</Text>
                 <CustomIcon as={BiEditAlt} color='blue.500' activeCol="blue.700" ml='2' onClick={onOpenEdit} />
                 <PostModal isOpen={isOpenEdit} onClose={onCloseEdit} isUpdate defaultContent={post.content} />
-                <CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
-                <RemoveModal isOpen={isOpen} onClose={onClose} />
+                {isLogin && role === 'admin' && <><CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
+                <RemoveModal isOpen={isOpen} onClose={onClose} /></>}
             </Flex>
             
             {post.reply.map((val: RPost) => (

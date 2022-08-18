@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import categoryReducer from './features/category/categorySlice'
 import selectedCatReducer from './features/category/selectedCatSlice'
+import authReducer from './features/auth/authSlice'
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -11,11 +12,13 @@ const persistConfig = {
 }
 
 const persistedReducer = persistReducer(persistConfig, categoryReducer)
+const persistedAuthReducer = persistReducer(persistConfig, authReducer)
 
 export const store = configureStore({
   reducer: {
     category: persistedReducer,
     selectedCat: selectedCatReducer,
+    auth: persistedAuthReducer,
   },
   middleware: [thunk]
 })

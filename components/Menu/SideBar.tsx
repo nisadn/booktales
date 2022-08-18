@@ -1,12 +1,15 @@
-import { Divider, Flex, useDisclosure } from '@chakra-ui/react';
+import { Divider, Flex, useDisclosure, useToast } from '@chakra-ui/react';
 import { AiOutlineHome } from 'react-icons/ai';
-import { BiEdit, BiLogInCircle, BiCategory } from 'react-icons/bi';
+import { BiEdit, BiLogInCircle, BiCategory, BiLogOutCircle } from 'react-icons/bi';
 import MenuIcon from './MenuIcon';
 import React from 'react';
 import { useRouter } from 'next/router';
 import { ThreadModal } from '../Modal';
 import { StyledLogo } from '../StyledComponents/Styled';
 import CategoryDrawer from '../Container/CategoryDrawer';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { logout } from '../../redux/features/auth/authSlice';
 
 interface ISideBar {
     page: string;
@@ -17,6 +20,9 @@ const SideBar: React.FC<ISideBar> = (props) => {
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { isOpen:isOpenDrawer, onOpen:onOpenDrawer, onClose:onCloseDrawer } = useDisclosure();
+    const isLogin = useSelector((state: RootState) => state.auth.isLogin);
+    const dispatch = useDispatch();
+    const toast = useToast();
 
     return (
         <Flex py={[0,6,6]} px='4' boxShadow={['custom','base','base']} position='fixed' zIndex={3} 
@@ -45,7 +51,19 @@ const SideBar: React.FC<ISideBar> = (props) => {
                 </Flex>
                 <Divider display={['none','block','block']} />
                 <Flex justify={'center'} w='full' >
-                    <MenuIcon icon={BiEdit} label='Create Thread' onClick={onOpen} />
+                    <MenuIcon icon={BiEdit} label='Create Thread' 
+                        onClick={isLogin ? onOpen : () => {
+                            toast({
+                                title: "You don't have permission for this feature",
+                                status: "error",
+                                variant: 'left-accent',
+                                position: 'top',
+                                duration: 3000,
+                                isClosable: true,
+                            });
+                            router.push('/login');
+                        }} 
+                    />
                     <ThreadModal isOpen={isOpen} onClose={onClose} />
                 </Flex>
             </Flex>
@@ -57,7 +75,14 @@ const SideBar: React.FC<ISideBar> = (props) => {
                     <CategoryDrawer isOpen={isOpenDrawer} onClose={onCloseDrawer} />
                 </Flex>
                 <Flex w='full' justify='center'>
-                    <MenuIcon icon={BiLogInCircle} label='Login' color='red.600' onClick={() => router.push('/login')} />
+                    {isLogin ? 
+                        <MenuIcon icon={BiLogOutCircle} label='Logout' color='red.600' onClick={() => {
+                            dispatch(logout);
+                            router.push('/login');
+                        }} />
+                    : 
+                        <MenuIcon icon={BiLogInCircle} label='Login' color='blue.600' onClick={() => router.push('/login')} />
+                    }
                 </Flex>
             </Flex>
         </Flex>

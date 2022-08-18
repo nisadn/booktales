@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
+import { Badge, Box, Flex, Icon, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import CustomIcon from "../Icon/CustomIcon";
 import { PostModal, RemoveModal, ThreadModal } from "../Modal";
 import { BiEditAlt, BiTrash } from "react-icons/bi";
@@ -8,6 +8,7 @@ import { OutlineButton, PrimaryButton } from "../Button";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { useRouter } from "next/router";
 
 interface IThread {
     id: string;
@@ -23,6 +24,10 @@ const ThreadStarter: React.FC<IThread> = (props) => {
     const { isOpen:isOpenPost, onOpen:onOpenPost, onClose:onClosePost } = useDisclosure();
 
     const selectedCat = useSelector((state: RootState) => state.selectedCat.value.name);
+    const isLogin = useSelector((state: RootState) => state.auth.isLogin);
+    const role = useSelector((state: RootState) => state.auth.account.role);
+    const toast = useToast();
+    const router = useRouter();
 
     return (
         <>
@@ -55,12 +60,22 @@ const ThreadStarter: React.FC<IThread> = (props) => {
                             // withStarter
                             // defaultStarter={thread.starter_post.content}
                         />
-                        <CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
-                        <RemoveModal isOpen={isOpen} onClose={onClose} />
+                        {isLogin && role === 'admin' && <><CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
+                        <RemoveModal isOpen={isOpen} onClose={onClose} /></>}
                     </Flex>
                 </Flex>
                 <Flex>
-                    <PrimaryButton px='6' onClick={onOpenPost} >Write Post</PrimaryButton>
+                    <PrimaryButton px='6' onClick={isLogin ? onOpenPost : () => {
+                            toast({
+                                title: "You don't have permission for this feature",
+                                status: "error",
+                                variant: 'left-accent',
+                                position: 'top',
+                                duration: 3000,
+                                isClosable: true,
+                            });
+                            router.push('/login');
+                        }} >Write Post</PrimaryButton>
                     <PostModal isOpen={isOpenPost} onClose={onClosePost} />
                 </Flex>
             </Flex>
