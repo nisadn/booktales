@@ -50,7 +50,7 @@ const ThreadStarter: React.FC<IThread> = (props) => {
                     <Flex gap='1' align='center' justify='flex-end'>
                         <Icon color='gray.500' as={GoCommentDiscussion} w='5' h='5' ml='2'/>
                         <Text fontSize='sm' ml='1'>{count}</Text>
-                        <CustomIcon as={BiEditAlt} color='blue.500' activeCol="blue.700" ml='2' onClick={onOpenEdit} />
+                        {role === 'admin' && <CustomIcon as={BiEditAlt} color='blue.500' activeCol="blue.700" ml='2' onClick={onOpenEdit} />}
                         <ThreadModal 
                             isOpen={isOpenEdit} 
                             onClose={onCloseEdit} 
@@ -60,12 +60,13 @@ const ThreadStarter: React.FC<IThread> = (props) => {
                             // withStarter
                             // defaultStarter={thread.starter_post.content}
                         />
-                        {isLogin && role === 'admin' && <><CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
-                        <RemoveModal isOpen={isOpen} onClose={onClose} /></>}
+                        {isLogin && role === 'admin' && <CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />}
+                        <RemoveModal isOpen={isOpen} onClose={onClose} />
                     </Flex>
                 </Flex>
                 <Flex>
-                    <PrimaryButton px='6' onClick={isLogin ? onOpenPost : () => {
+                    <PrimaryButton px='6' onClick={
+                        isLogin ? onOpenPost : () => {
                             toast({
                                 title: "You don't have permission for this feature",
                                 status: "error",
@@ -75,7 +76,7 @@ const ThreadStarter: React.FC<IThread> = (props) => {
                                 isClosable: true,
                             });
                             router.push('/login');
-                        }} >Write Post</PrimaryButton>
+                        }}>Write Post</PrimaryButton>
                     <PostModal isOpen={isOpenPost} onClose={onClosePost} />
                 </Flex>
             </Flex>

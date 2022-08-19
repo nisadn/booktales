@@ -18,7 +18,7 @@ type RPost = Post & {
 
 const PostCard = ({ post }: { post: RPost }) => {
     return (
-        <Flex direction='column' py='2' px='4' boxShadow='md' borderRadius='md' gap='1'>
+        <Flex direction='column' py='2' px='6' boxShadow='md' borderRadius='md' gap='1'>
             <PostDetails post={post} />
         </Flex>
     )

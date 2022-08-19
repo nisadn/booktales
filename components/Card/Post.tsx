@@ -31,9 +31,10 @@ const PostDetails = ({ post }: { post : RPost }) => {
     const { isOpen:isOpenReply, onOpen:onOpenReply, onClose:onCloseReply } = useDisclosure();
     const isLogin = useSelector((state: RootState) => state.auth.isLogin);
     const role = useSelector((state: RootState) => state.auth.account.role);
+    const owner = useSelector((state: RootState) => state.auth.token.iss);
 
     return (
-        <Flex direction='column' id={post.id} px='2'>
+        <Flex direction='column' id={post.id} >
             {post.isStarter && 
                 <Badge w='fit-content' fontWeight='semibold' fontSize='sm' colorScheme="green" mb='2'>
                     Starter Post
@@ -55,11 +56,11 @@ const PostDetails = ({ post }: { post : RPost }) => {
                 <CustomIcon color='green.500' activeCol='green.700' as={TbArrowBigUpLine} />
                 <Text color='green.700'>{post.upvote}</Text>
                 <CustomIcon color='gray.400' activeCol='gray.500' as={TbArrowBigDownLine} ml='2' />
-                <Text color='gray.500'>{post.downvote}</Text>
-                <CustomIcon as={BiEditAlt} color='blue.500' activeCol="blue.700" ml='2' onClick={onOpenEdit} />
+                <Text color='gray.500' mr='2'>{post.downvote}</Text>
+                {owner == post.owner && <CustomIcon as={BiEditAlt} color='blue.500' activeCol="blue.700" onClick={onOpenEdit} />}
                 <PostModal isOpen={isOpenEdit} onClose={onCloseEdit} isUpdate defaultContent={post.content} />
-                {isLogin && role === 'admin' && <><CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
-                <RemoveModal isOpen={isOpen} onClose={onClose} /></>}
+                {isLogin && role === 'admin' && !post.isStarter && <CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />}
+                <RemoveModal isOpen={isOpen} onClose={onClose} />
             </Flex>
             
             {post.reply.map((val: RPost) => (

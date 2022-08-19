@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import jwt_decode from "jwt-decode";
 
 type Account = {
     username: string;
@@ -6,9 +7,15 @@ type Account = {
     token: string;
 }
 
+type Token = {
+  exp: string;
+  iss: string;
+}
+
 export interface AuthState {
   isLogin: boolean;
   account: Account;
+  token: Token;
 }
 
 const initialState: AuthState = {
@@ -18,6 +25,10 @@ const initialState: AuthState = {
     role: '',
     token: '',
   },
+  token: {
+    exp: '',
+    iss: '',
+  }
 }
 
 export const authSlice = createSlice({
@@ -27,13 +38,18 @@ export const authSlice = createSlice({
     login: (state, action: PayloadAction<Account>) => {
       state.isLogin = true;
       state.account = action.payload;
+      state.token = jwt_decode(action.payload.token)
     },
     logout: (state) => {
       state.isLogin = false;
-      state.account = {
+      state.account= {
         username: '',
         role: '',
         token: '',
+      },
+      state.token= {
+        exp: '',
+        iss: '',
       }
     }
   },

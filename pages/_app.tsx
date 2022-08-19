@@ -4,15 +4,18 @@ import { ChakraProvider } from '@chakra-ui/react'
 import customTheme from '../styles/theme'
 import { useRef } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { store, persistor } from '../redux/store'
+import { store } from '../redux/store'
 import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+
+let persistor = persistStore(store);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = useRef(new QueryClient());
 
   return <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
+    <PersistGate persistor={persistor}>
       <QueryClientProvider client={queryClient.current}>
           <ChakraProvider theme={customTheme}>
             <Component {...pageProps} />

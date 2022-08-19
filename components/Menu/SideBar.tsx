@@ -77,7 +77,7 @@ const SideBar: React.FC<ISideBar> = (props) => {
                 <Flex w='full' justify='center'>
                     {isLogin ? 
                         <MenuIcon icon={BiLogOutCircle} label='Logout' color='red.600' onClick={() => {
-                            dispatch(logout);
+                            dispatch(logout());
                             router.push('/login');
                         }} />
                     : 

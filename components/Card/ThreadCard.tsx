@@ -21,7 +21,12 @@ const ThreadCard = ({thread}: {thread: Thread}) => {
     const role = useSelector((state: RootState) => state.auth.account.role);
 
     return (
-        <Flex direction='column' p='6' boxShadow='md' borderRadius='md' gap='1'>
+        <Flex direction='column' p='6' boxShadow='md' borderRadius='md' gap='1' transition='0.3s'
+            _hover={{
+                bg: 'gray.100',
+                transition: '0.3s',
+            }}
+        >
             {/* <Text fontWeight='semibold' fontSize='sm' color='green.500'>@{thread.author}</Text> */}
             {/* <Text fontWeight='semibold' fontSize='xl'>{thread.name}</Text> */}
             <Flex justify='space-between'>
@@ -39,12 +44,14 @@ const ThreadCard = ({thread}: {thread: Thread}) => {
                     <Text fontSize='sm'>50</Text> */}
                     {/* <Icon color='gray.500' as={GoCommentDiscussion} w='5' h='5' ml='2'/> */}
                     {/* <Text fontSize='sm' ml='1'>{thread.total_post}</Text> */}
+                    
+                    {isLogin && role === 'admin' && <>
                     <CustomIcon as={BiEditAlt} color='blue.500' activeCol="blue.700" ml='2' onClick={onOpenEdit} />
+                    <CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} /></>}
                     <ThreadModal isOpen={isOpenEdit} onClose={onCloseEdit} isUpdate defaultTitle={thread.name} 
                         // defaultCategory={thread.category.id} 
                     />
-                    {isLogin && role === 'admin' && <><CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />
-                    <RemoveModal isOpen={isOpen} onClose={onClose} /></>}
+                    <RemoveModal isOpen={isOpen} onClose={onClose} />
                 </Flex>
             </Flex>
             
