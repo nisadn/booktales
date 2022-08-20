@@ -57,6 +57,7 @@ const CategoryModal: React.FC<ICategoryModal> = (props) => {
             toast({
                 title: `Successfully ${isUpdate ? 'update' : 'create'} category ${res.name}`,
                 variant: 'left-accent',
+                status: 'success',
                 position: 'top',
                 duration: 3000,
                 isClosable: true,

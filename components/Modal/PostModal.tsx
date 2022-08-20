@@ -58,6 +58,7 @@ const PostModal: React.FC<IPostModal> = (props) => {
             toast({
                 title: `Successfully ${isReply ? 'reply' : isUpdate ? 'update' : 'create' } post`,
                 variant: 'left-accent',
+                status: 'success',
                 position: 'top',
                 duration: 3000,
                 isClosable: true,

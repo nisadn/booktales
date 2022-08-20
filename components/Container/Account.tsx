@@ -49,6 +49,7 @@ const Account: React.FC<AccountProps> = (props) => {
             toast({
                 title: `${isRegister ? 'Registration' : 'Login'} success`,
                 variant: 'left-accent',
+                status: 'success',
                 position: 'top',
                 duration: 3000,
                 isClosable: true,

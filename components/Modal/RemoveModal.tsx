@@ -53,6 +53,7 @@ const RemoveModal: React.FC<IModal> = (props) => {
             toast({
                 title: `Successfully delete ${object}`,
                 variant: 'left-accent',
+                status: 'success',
                 position: 'top',
                 duration: 3000,
                 isClosable: true,

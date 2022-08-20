@@ -73,6 +73,7 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
             toast({
                 title: `Successfully ${isUpdate ? 'update' : 'create'} thread`,
                 variant: 'left-accent',
+                status: 'success',
                 position: 'top',
                 duration: 3000,
                 isClosable: true,
