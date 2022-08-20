@@ -1,11 +1,11 @@
 import { Flex } from "@chakra-ui/react";
 import PostCard from "../Card/PostCard";
 
-const Posts = ({ posts }: { posts: RPost[]}) => {
+const Posts = ({ posts, tid }: { posts: RPost[], tid: string}) => {
     return (
         <Flex direction='column' mt='10' gap='10'>
             { posts.map((post: RPost, index: number) => (
-                <PostCard post={post} key={index}/>
+                <PostCard post={post} key={index} tid={tid} />
             ))}
             {/* <PostCard post={post2}/> */}
             {/* <PostCard post={post}/> */}

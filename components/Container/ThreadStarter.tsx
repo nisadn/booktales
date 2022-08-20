@@ -55,13 +55,13 @@ const ThreadStarter: React.FC<IThread> = (props) => {
                             isOpen={isOpenEdit} 
                             onClose={onCloseEdit} 
                             isUpdate 
-                            defaultTitle={name} 
-                            // defaultCategory={thread.category.id} 
-                            // withStarter
-                            // defaultStarter={thread.starter_post.content}
+                            defaultThread={{
+                                id: `${id}`,
+                                name: `${name}`
+                            }} 
                         />
                         {isLogin && role === 'admin' && <CustomIcon as={BiTrash} color='red.500' activeCol="red.700" onClick={onOpen} />}
-                        <RemoveModal isOpen={isOpen} onClose={onClose} />
+                        <RemoveModal isOpen={isOpen} onClose={onClose} object='thread' id={id} />
                     </Flex>
                 </Flex>
                 <Flex>
@@ -77,7 +77,7 @@ const ThreadStarter: React.FC<IThread> = (props) => {
                             });
                             router.push('/login');
                         }}>Write Post</PrimaryButton>
-                    <PostModal isOpen={isOpenPost} onClose={onClosePost} />
+                    <PostModal isOpen={isOpenPost} onClose={onClosePost} tid={id}/>
                 </Flex>
             </Flex>
         </>

@@ -16,10 +16,10 @@ type RPost = Post & {
     reply: RPost[],
 }
 
-const PostCard = ({ post }: { post: RPost }) => {
+const PostCard = ({ post, tid }: { post: RPost, tid: string }) => {
     return (
         <Flex direction='column' py='2' px='6' boxShadow='md' borderRadius='md' gap='1'>
-            <PostDetails post={post} />
+            <PostDetails post={post} tid={tid} />
         </Flex>
     )
 }

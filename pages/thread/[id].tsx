@@ -1,19 +1,9 @@
 import { Badge, Box, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { OutlineButton } from "../../components/Button";
-import { Threads } from "../../components/Container";
 import Layout from "../../components/Layout/Layout";
-import { BiEditAlt, BiTrash } from "react-icons/bi";
-import { GoCommentDiscussion } from "react-icons/go";
-import { IoIosArrowRoundForward } from "react-icons/io";
-import CustomIcon from "../../components/Icon/CustomIcon";
-import { RemoveModal, ThreadModal } from "../../components/Modal";
 import ThreadStarter from "../../components/Container/ThreadStarter";
 import Posts from "../../components/Container/Posts";
-import { threadApi } from "../../config/service/threadApi";
-import React, { useEffect, useState } from "react";
-import { useQuery, UseQueryResult } from "react-query";
+import React from "react";
 import { axiosClient } from "../../config/apiClient";
 
 type Post = {
@@ -38,23 +28,41 @@ interface IPostPage {
     count: number;
 }
 
-type TParsePost = {
-    id: string;
-    post: Post;
-}
-
 export async function getServerSideProps(context: any) {
   const { id } = context.query;
   const res = await axiosClient.get(`/thread/${id}`);
   const data = res.data.data;
   const posts: { [id: string] : RPost; } = {};
+  const postsByIdx: { [id: string] : RPost; } = {};
+  const idxReply: { [id: string] : Array<string>; } = {};
+  data.forEach((post: Post) => {
+    idxReply[post.id] = [];
+    if (post.replyId !== '') {
+        idxReply[post.replyId].push(post.id);
+    }
+  });
 
   data.forEach((post: Post) => {
     if (post.replyId === '') {
-        posts[post.id] = {...post, reply: []};
+        postsByIdx[post.id] = {...post, reply: []};
     } else {
-        posts[post.replyId].reply.push({...post, reply: []});
+        if (postsByIdx[post.id]) {
+            postsByIdx[post.id].reply.push({...post, reply: []});
+        } else {
+            postsByIdx[post.id] = {...post, reply: []};
+        }
+        postsByIdx[post.replyId].reply.push({...post, reply: []});
     }
+  })
+
+  Object.keys(idxReply).forEach((idx: string) => {
+    if (postsByIdx[idx].replyId === '') {
+        posts[idx] = postsByIdx[idx];
+        posts[idx].reply = [];
+        idxReply[idx].forEach((i: string)=> {
+            posts[idx].reply.push(postsByIdx[i]);
+        })
+    } 
   })
 
   return {
@@ -84,7 +92,7 @@ const ThreadDetailPage: React.FC<IPostPage> = (props) => {
 
             <Layout page='details'>
                 <ThreadStarter id={id} name={name} count={count} />
-                <Posts posts={posts} />
+                <Posts posts={posts} tid={id} />
             </Layout>
 
         </div>

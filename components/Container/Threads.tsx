@@ -1,11 +1,6 @@
 import { Flex } from "@chakra-ui/react"
 import ThreadCard from "../Card/ThreadCard"
 
-type Category = {
-    id: string,
-    title: string,
-}
-
 type Thread = {
     id: string;
     name: string;
@@ -14,9 +9,12 @@ type Thread = {
 const Threads = ({threads}: {threads: Thread[]}) => {
     return (
         <Flex direction='column' mt='8' gap='10'>
-            {threads.map((val: Thread) => (
-                <ThreadCard thread={val} key={val.id} />
-            ))}
+            {threads ? 
+                threads.map((val: Thread) => (
+                    <ThreadCard thread={val} key={val.id} />
+                )) 
+            : <div>This category has no threads yet.</div>
+            }
         </Flex>
     )
 }

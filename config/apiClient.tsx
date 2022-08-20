@@ -1,4 +1,5 @@
 import axios from "axios";
+import { store } from '../redux/store';
 
 const axiosClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API,
@@ -7,6 +8,15 @@ const axiosClient = axios.create({
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }
+});
+
+axiosClient.interceptors.request.use((config) => {
+  const state = store.getState();
+  const token = state.auth.account.token;
+  config.headers = config.headers || {};
+  config.headers['X-USER-TOKEN'] = token;
+
+  return config;
 });
 
 axiosClient.interceptors.response.use(
