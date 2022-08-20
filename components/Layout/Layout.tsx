@@ -24,7 +24,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
         if (tokenExp * 1000 < Date.now()) {
           dispatch(logout());
           toast({
-            title: "Successfully logged out",
+            title: "Your token is expired. Automatically logged out.",
             status: 'success',
             variant: 'left-accent',
             position: 'top',

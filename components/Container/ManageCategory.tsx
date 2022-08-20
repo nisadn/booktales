@@ -6,7 +6,7 @@ type Category = {
     name: string;
 }
 
-const ManageCategory = ({categories}: {categories: Category[]}) => {
+const ManageCategory = ({categories}: {categories: Category[]}) => {;
     return (
         <Flex direction='column' mt='8' gap='10'>
             {categories ? 

@@ -21,3 +21,6 @@ export { default as Posts } from './Posts';
 
 export * from './ThreadStarter';
 export { default as ThreadStarter } from './ThreadStarter';
+
+export * from './Loading';
+export { default as Loading } from './Loading';

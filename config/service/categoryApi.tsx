@@ -17,6 +17,22 @@ export const categoryApi = {
             return Promise.reject(error);
         }
     },
+    get: async (id: string) => {
+        try {
+            const res = await axiosClient.get(`/category/${id}`);
+            return res;
+        } catch (error: any) {
+            return Promise.reject(error);
+        }
+    },
+    getCategories: async () => {
+        try {
+            const res = await axiosClient.get('/category');
+            return res;
+        } catch (error: any) {
+            return Promise.reject(error);
+        }
+    },
     delete: async (id: string) => {
         try {
             const res = await axiosClient.delete(`/category/${id}`);

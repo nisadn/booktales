@@ -1,39 +1,38 @@
 import { Flex, Text } from "@chakra-ui/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React from "react";
-import { Threads } from "../../components/Container";
+import { useQuery, UseQueryResult } from "react-query";
+import { Loading, Threads } from "../../components/Container";
 import Layout from "../../components/Layout/Layout";
-import { axiosClient } from "../../config/apiClient";
+import { categoryApi } from "../../config/service/categoryApi";
 
 type Thread = {
     id: string;
     name: string;
 }
 
-interface IThreadPage {
-    threads: Thread[];
+type ThreadResp = {
+    data: Thread[];
     name: string;
 }
 
-export async function getServerSideProps(context: any) {
-  const { id } = context.query;
-  const res = await axiosClient.get(`/category/${id}`);
-  return {
-    props: {
-      threads: res.data.data,
-      name: res.data.name,
+const ThreadsByCategoryPage = () => {
+    const router = useRouter();
+    const id = router.query.id as string;
+
+    const getThreads = async () => {
+        const res = await categoryApi.get(id);
+        return res.data;
     }
-  }
-};
 
-const ThreadsByCategoryPage: React.FC<IThreadPage> = (props) => {
-    const { threads, name } = props;
-
+    const { status, data, error }: UseQueryResult<ThreadResp, Error> = useQuery<ThreadResp, Error>('threads', getThreads);    
+    
     return (
         <div>
             <Head>
-                <title>Booktales: {name} threads</title>
-                <meta name="description" content={`Booktales: all threads in category ${name}`} />
+                <title>Booktales: {data ? data.name : 'Detail'} threads</title>
+                <meta name="description" content={`Booktales: all threads in category ${data ? data.name : 'Detail'}`} />
             </Head>
 
             <Layout page='threads_by_category'>
@@ -42,11 +41,15 @@ const ThreadsByCategoryPage: React.FC<IThreadPage> = (props) => {
                 <Text as='span'
                     bgGradient='linear(to-r, green.300, blue.500)'
                     bgClip='text'
-                > {name}
+                > {data ? data.name : 'Detail'}
                 </Text>
                 {' '}Threads</Text>
                 </Flex>
-                <Threads threads={threads} />
+                {status === 'success' ? 
+                    <Threads threads={data.data} />
+                :
+                    <Loading text='threads' />
+                }
             </Layout>
 
         </div>

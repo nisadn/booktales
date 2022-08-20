@@ -2,40 +2,40 @@ import { Flex, Text, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ManageCategory } from "../../components/Container";
+import { Loading, ManageCategory } from "../../components/Container";
 import Layout from "../../components/Layout/Layout";
 import { axiosClient } from "../../config/apiClient";
 import { RootState } from "../../redux/store";
 import { get } from '../..//redux/features/category/categorySlice';
 import { useRouter } from "next/router";
+import { categoryApi } from "../../config/service/categoryApi";
+import { useQuery, UseQueryResult } from "react-query";
 
 type Category = {
     id: string;
     name: string;
 }
 
-export async function getServerSideProps() {
-  const res = await axiosClient.get('/category');
-  return {
-    props: {
-      categories: res.data
-    }
-  }
-};
-
-const ManageCategoryPage = (
-        { categories }: { categories: Category[]}
-    ) => {
+const ManageCategoryPage = () => {
         
     const isLogin = useSelector((state: RootState) => state.auth.isLogin);
     const role = useSelector((state: RootState) => state.auth.account.role);
     const toast = useToast();
     const router = useRouter();
 
+    const getCategories = async () => {
+        const res = await categoryApi.getCategories();
+        return res.data;
+    }
+
+    const { status, data, error }: UseQueryResult<Array<Category>, Error> = useQuery<Array<Category>, Error>('categories', getCategories); 
+
     const dispatch = useDispatch();
     useEffect(() => {
-      dispatch(get(categories));
-    }, [categories]);
+        if (status === 'success') {
+            dispatch(get(data));
+        }
+    }, [data]);
     
     useEffect(() => {
         if (role !== 'admin' || !isLogin) {
@@ -64,7 +64,11 @@ const ManageCategoryPage = (
                     Manage Category
                 </Text>
                 </Flex>
-                <ManageCategory categories={categories} />
+                {status === 'success' ? 
+                    <ManageCategory categories={data} />
+                : 
+                    <Loading text='categories' />
+                }
             </Layout>
 
         </div>
