@@ -34,7 +34,6 @@ const ThreadsByCategoryPage: React.FC<IThreadPage> = (props) => {
             <Head>
                 <title>Booktales: {name} threads</title>
                 <meta name="description" content={`Booktales: all threads in category ${name}`} />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
 
             <Layout page='threads_by_category'>

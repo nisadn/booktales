@@ -75,7 +75,7 @@ const Account: React.FC<AccountProps> = (props) => {
         <Head>
             <title>{isRegister ? 'Register' : 'Login'} to Booktales</title>
             <meta name="description" content="Booktales Account" />
-            <link rel="icon" href="/favicon.ico" />
+            <link rel="icon" type="image/png" href="/logo-squared.png" />
         </Head>
 
         <Flex w='screen' direction='column' textAlign='center' gap='6' p='14' align='center'>
@@ -90,6 +90,8 @@ const Account: React.FC<AccountProps> = (props) => {
                     fontWeight='bold'
                     w='fit-content'
                     align='center'
+                    onClick={() => router.push('/')}
+                    cursor='pointer'
                 > Booktales
                 </Text>
             </Flex>

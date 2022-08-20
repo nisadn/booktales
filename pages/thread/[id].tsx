@@ -82,7 +82,6 @@ const ThreadDetailPage: React.FC<IPostPage> = (props) => {
             <Head>
                 <title>{name}</title>
                 <meta name="description" content={`Booktales: ${name}`} />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
 
             <Layout page='details'>

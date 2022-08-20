@@ -56,7 +56,6 @@ const ManageCategoryPage = (
             <Head>
                 <title>Manage Category</title>
                 <meta name="description" content="Admin settings for managing categories" />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
 
             <Layout page='manage_category'>

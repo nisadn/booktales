@@ -33,7 +33,6 @@ const Home = ({ categories }: { categories: Category[]}) => {
       <Head>
         <title>Welcome to Booktales!</title>
         <meta name="description" content="Welcome to Booktales! - Where everyone can share anything about books." />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Layout page='home' >
