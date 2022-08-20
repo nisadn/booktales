@@ -1,5 +1,5 @@
 import { FormControl, FormErrorMessage, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, useToast } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import { OutlineButton, PrimaryButton } from "../Button";
 import { useForm } from 'react-hook-form';
 import { useMutation, UseMutationResult } from "react-query";

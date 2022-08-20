@@ -7,8 +7,6 @@ const Posts = ({ posts, tid }: { posts: RPost[], tid: string}) => {
             { posts.map((post: RPost, index: number) => (
                 <PostCard post={post} key={index} tid={tid} />
             ))}
-            {/* <PostCard post={post2}/> */}
-            {/* <PostCard post={post}/> */}
         </Flex>
     )
 }
@@ -29,57 +27,3 @@ type Post = {
 type RPost = Post & {
     reply: RPost[],
 }
-
-// const content = "Penguins are flightless seabirds that live almost exclusively below the equator. Some island-dwellers can be found in warmer climates, but most—including emperor, adélie, chinstrap, and gentoo penguins—reside in and around icy Antarctica. Penguins are flightless seabirds that live almost exclusively below the equator."
-
-// const post: Post = {
-//     id: "1",
-//     content: content,
-//     upvote: 17,
-//     downvote: 2,
-//     replyId: "",
-//     owner: "string",
-//     isStarter: true,
-//     edited: false,
-// }
-
-// const post2: Post = {
-//     id: "2",
-//     content: "ini reply",
-//     upvote: 17,
-//     downvote: 2,
-//     replyId: "1",
-//     owner: "string",
-//     isStarter: false,
-//     edited: false,
-// }
-
-// const post2: Post = {
-//     id: "3",
-//     author: "nis.adn",
-//     content: content,
-//     reply: [{
-//         id: "4",
-//         author:"adiandiann",
-//         content: content,
-//         reply: [{
-//             id: "5",
-//             author:"annisadian",
-//             content: content,
-//             reply: [],
-//             upvote: 10,
-//             downvote: 1
-//         }],
-//         upvote: 10,
-//         downvote: 1
-//     },{
-//         id: "6",
-//         author:"dummyuser",
-//         content: content,
-//         reply: [],
-//         upvote: 10,
-//         downvote: 1
-//     }],
-//     upvote: 17,
-//     downvote: 2
-// }

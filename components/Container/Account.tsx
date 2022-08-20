@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useMutation, UseMutationResult, useQuery, UseQueryResult } from "react-query";
+import { useMutation, UseMutationResult } from "react-query";
 import { useDispatch } from "react-redux";
 import { authApi } from "../../config/service/authApi";
 import { PrimaryButton } from "../Button";
@@ -25,31 +25,19 @@ const Account: React.FC<AccountProps> = (props) => {
     const toast = useToast();
     
     const postLogin = async (data: AccountReq) => {
-        const res = await authApi.login(data)
-        return res;
-    }
-
-    const postRegister = async (data: RegisterReq) => {
-        const res = await authApi.register(data);
+        let res: any;
+        if (isRegister) {
+            res = await authApi.register(data);
+        } else {
+            res = await authApi.login(data)
+        }
         return res;
     }
 
     const mutation: UseMutationResult<LoginResp, Error, AccountReq> = useMutation<LoginResp, Error, AccountReq>(postLogin, {
         onError: () => {
             toast({
-                title: 'Wrong username or password',
-                status: 'error',
-                variant: 'left-accent',
-                position: 'top',
-                duration: 3000,
-                isClosable: true,
-            });
-        }
-    });
-    const mutationRegister: UseMutationResult<RegisterResp, Error, RegisterReq> = useMutation<RegisterResp, Error, RegisterReq>(postRegister, {
-        onError: () => {
-            toast({
-                title: 'Username already exists',
+                title: `${isRegister ? 'Username already exists' : 'Wrong username or password'}`,
                 status: 'error',
                 variant: 'left-accent',
                 position: 'top',
@@ -59,7 +47,7 @@ const Account: React.FC<AccountProps> = (props) => {
         },
         onSuccess: () => {
             toast({
-                title: "Registration success",
+                title: `${isRegister ? 'Registration' : 'Login'} success`,
                 variant: 'left-accent',
                 position: 'top',
                 duration: 3000,
@@ -69,20 +57,16 @@ const Account: React.FC<AccountProps> = (props) => {
     });
     
     const onSubmit = (data: any) => {
-        if (isRegister) {
-            mutationRegister.mutate(data);
-        } else {
-            mutation.mutate(data);
-        } 
+        mutation.mutate(data);
     }
     
-    if (mutationRegister.isSuccess) {
-        router.push('/login');
-    } 
-    
     if (mutation.isSuccess) {
-        dispatch(login(mutation.data));
-        router.push('/');
+        if (isRegister) {
+            router.push('/login');
+        } else {
+            dispatch(login(mutation.data));
+            router.push('/');
+        }
     } 
 
     return (
@@ -170,7 +154,7 @@ const Account: React.FC<AccountProps> = (props) => {
                     <FormErrorMessage>This field is required</FormErrorMessage>
                 </FormControl>}
 
-            <PrimaryButton px='10' type='submit' isLoading={mutation.isLoading || mutationRegister.isLoading} mt='6' >
+            <PrimaryButton px='10' type='submit' isLoading={mutation.isLoading} mt='6' >
                 {isRegister ? 'Register' : 'Login'}
             </PrimaryButton>
 

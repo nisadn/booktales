@@ -48,38 +48,17 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
     const router = useRouter();
     const toast = useToast();
 
-    const postThread = async (data: ThreadReq) => {
-        const res = await threadApi.create(data);
-        return res.data;
-    }
-
-    const updateThread = async (data: Thread) => {
-        const res = await threadApi.edit(data);
-        return res.data;
-    }
-
-    const mutation: UseMutationResult<ThreadResp, Error, ThreadReq> = useMutation<ThreadResp, Error, ThreadReq>(postThread, {
-        onError: () => {
-            toast({
-                title: 'Something went wrong',
-                status: 'error',
-                variant: 'left-accent',
-                position: 'top',
-                duration: 3000,
-                isClosable: true,
-            });
-        },
-        onSuccess: () => {
-            toast({
-                title: `Successfully create thread`,
-                variant: 'left-accent',
-                position: 'top',
-                duration: 3000,
-                isClosable: true,
-            });
+    const postThread = async (data: ThreadReq | Thread) => {
+        let res: any;
+        if (isUpdate) {
+            res = await threadApi.edit(data);
+        } else {
+            res = await threadApi.create(data);
         }
-    })
-    const mutationUpdate: UseMutationResult<ThreadResp, Error, Thread> = useMutation<ThreadResp, Error, Thread>(updateThread, {
+        return res.data;
+    }
+
+    const mutation: UseMutationResult<ThreadResp, Error, ThreadReq | Thread> = useMutation<ThreadResp, Error, ThreadReq | Thread>(postThread, {
         onError: () => {
             toast({
                 title: 'Something went wrong',
@@ -92,7 +71,7 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
         },
         onSuccess: () => {
             toast({
-                title: `Successfully update thread`,
+                title: `Successfully ${isUpdate ? 'update' : 'create'} thread`,
                 variant: 'left-accent',
                 position: 'top',
                 duration: 3000,
@@ -108,7 +87,7 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
                 id: `${defaultThread?.id}`,
                 name: `${data.name}`
             }
-            mutationUpdate.mutate(param);
+            mutation.mutate(param);
         } else {
             data.firstPost = {
                 content: data.firstPost
@@ -117,7 +96,7 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
         }
     };
 
-    if (mutation.isSuccess || mutationUpdate.isSuccess) {
+    if (mutation.isSuccess) {
         router.reload();
     }
 
@@ -172,7 +151,7 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
             </ModalBody>
 
             <ModalFooter justifyContent='center' gap='4'>
-                <PrimaryButton px='10' type='submit' isLoading={mutation.isLoading || mutationUpdate.isLoading} >{isUpdate ? 'Save' : 'Add'}</PrimaryButton>
+                <PrimaryButton px='10' type='submit' isLoading={mutation.isLoading} >{isUpdate ? 'Save' : 'Add'}</PrimaryButton>
                 <OutlineButton px='10' onClick={onClose}>Cancel</OutlineButton>
             </ModalFooter>
             </form>

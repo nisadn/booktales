@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, Wrap } from "@chakra-ui/react";
+import { Button, Flex, Text, Wrap } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { select } from "../../redux/features/category/selectedCatSlice";
@@ -48,35 +48,3 @@ const Ads = () => {
 }
 
 export default Ads;
-
-// type Category = {
-//     id: string,
-//     title: string,
-// }
-
-// const categories: Category[] = [{
-//     id: '1',
-//     title: "Fiction",
-//   },{
-//     id: '2',
-//     title: "Non-Fiction",
-//   },{
-//     id: '3',
-//     title: "Biography",
-//   },{
-//     id: '4',
-//     title: "Drama",
-//   },{
-//     id: '5',
-//     title: "Romance",
-//   },{
-//     id: '6',
-//     title: "Adventure",
-//   },{
-//     id: '7',
-//     title: "Scifi",
-//   },{
-//     id: '8',
-//     title: "Fantasy",
-//   }
-// ]

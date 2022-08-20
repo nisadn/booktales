@@ -6,10 +6,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { ThreadModal } from '../Modal';
 import { StyledLogo } from '../StyledComponents/Styled';
-import CategoryDrawer from '../Container/CategoryDrawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { logout } from '../../redux/features/auth/authSlice';
+import { CategoryDrawer } from '../Container';
 
 interface ISideBar {
     page: string;

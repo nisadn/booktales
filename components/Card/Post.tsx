@@ -1,4 +1,4 @@
-import { Badge, Box, Divider, Flex, Icon, Link, Text, useDisclosure, useToast } from "@chakra-ui/react";
+import { Badge, Box, Flex, Icon, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import CustomIcon from "../Icon/CustomIcon";
 import { RemoveModal } from "../Modal";
 import { TbArrowBigUpLine, TbArrowBigDownLine } from 'react-icons/tb';
@@ -110,9 +110,6 @@ const PostDetails = ({ post, tid }: { post : RPost, tid: string }) => {
             });
         }
     }
-
-    // if (mutation.isSuccess) {
-    // }
 
     return (
         <Flex direction='column' id={post.id} >

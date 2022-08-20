@@ -26,8 +26,3 @@ export const categoryApi = {
         }
     },
 }
-
-// export const getCategories = async () => {
-//     const res = await axiosClient.get('/category');
-//     return res.data;
-// };

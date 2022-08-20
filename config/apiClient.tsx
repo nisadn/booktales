@@ -1,7 +1,5 @@
-import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { RootState, store } from '../redux/store';
+import { store } from '../redux/store';
 
 const axiosClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API,

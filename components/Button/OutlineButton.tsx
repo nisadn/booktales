@@ -7,10 +7,7 @@ const OutlineButton: React.FC<ButtonProps> = (props) => {
         <Button
             variant='outline'
             borderRadius='full'
-            // border='2px'
-            // borderColor='green.300'
             colorScheme='blue'
-            // color='blue.500'
             {...rest}
         >
             {children}

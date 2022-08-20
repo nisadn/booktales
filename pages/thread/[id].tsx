@@ -1,10 +1,8 @@
-import { Badge, Box, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
 import Head from "next/head";
 import Layout from "../../components/Layout/Layout";
-import ThreadStarter from "../../components/Container/ThreadStarter";
-import Posts from "../../components/Container/Posts";
 import React from "react";
 import { axiosClient } from "../../config/apiClient";
+import { Posts, ThreadStarter } from "../../components/Container";
 
 type Post = {
     id: string;
@@ -79,14 +77,11 @@ export async function getServerSideProps(context: any) {
 const ThreadDetailPage: React.FC<IPostPage> = (props) => {
     const { posts, id, name, count } = props;
 
-//   const { status, error, data }: UseQueryResult<Array<Thread>> = useQuery<Array<Thread>>('threads', fetchApi(id));
-    // const { data, isLoading }: UseQueryResult<Array<Thread>> = useQuery<Array<Thread>>('threads', fetchApi(id));
-
     return (
         <div>
             <Head>
-                <title>Thread Details</title>
-                <meta name="description" content="Thread Details" />
+                <title>{name}</title>
+                <meta name="description" content={`Booktales: ${name}`} />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
@@ -100,44 +95,3 @@ const ThreadDetailPage: React.FC<IPostPage> = (props) => {
 }
 
 export default ThreadDetailPage;
-
-type Category = {
-    id: string;
-    title: string;
-}
-
-type StarterPost = {
-    id: string;
-    content: string;
-}
-
-type StarterThread = {
-    id: string;
-    title: string;
-    author: string;
-    category: Category;
-    starter_post: StarterPost;
-}
-
-const starter_thread: StarterThread = {
-    id: "1",
-    title: "Hello World!",
-    author: "nis.adn",
-    category: {
-        id: "1",
-        title: "Fiction",
-    },
-    starter_post: {
-        id: "1",
-        content: "Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet \
-ipsum lorem ipsum sir Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet \
-Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet \
-ipsum lorem ipsum sir Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet \
-Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet \
-ipsum lorem ipsum sir Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet \
-Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet \
-ipsum lorem ipsum sir Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet \
-Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet \
-ipsum lorem ipsum sir Lorem ipsum sir dolor amet Lorem ipsum sir dolor amet"
-    }
-}

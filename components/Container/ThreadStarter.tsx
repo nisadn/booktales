@@ -3,8 +3,7 @@ import CustomIcon from "../Icon/CustomIcon";
 import { PostModal, RemoveModal, ThreadModal } from "../Modal";
 import { BiEditAlt, BiTrash } from "react-icons/bi";
 import { GoCommentDiscussion } from "react-icons/go";
-import { IoIosArrowRoundForward } from "react-icons/io";
-import { OutlineButton, PrimaryButton } from "../Button";
+import { PrimaryButton } from "../Button";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -32,7 +31,6 @@ const ThreadStarter: React.FC<IThread> = (props) => {
     return (
         <>
         <Flex direction='column' pt='2'>
-            {/* <Text fontWeight='medium' color='blue.600'>@{thread.author}</Text> */}
             <Text as='span' fontSize='2xl' fontWeight='bold'>
                 {name}
             </Text>

@@ -1,6 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React from "react";
 import { Threads } from "../../components/Container";
 import Layout from "../../components/Layout/Layout";
@@ -17,10 +16,7 @@ interface IThreadPage {
 }
 
 export async function getServerSideProps(context: any) {
-    const { id } = context.query;
-    // console.log(id);
-//   const router = useRouter();
-//   const id = router.query.id;
+  const { id } = context.query;
   const res = await axiosClient.get(`/category/${id}`);
   return {
     props: {
@@ -36,8 +32,8 @@ const ThreadsByCategoryPage: React.FC<IThreadPage> = (props) => {
     return (
         <div>
             <Head>
-                <title>Category Threads</title>
-                <meta name="description" content="Category Threads" />
+                <title>Booktales: {name} threads</title>
+                <meta name="description" content={`Booktales: all threads in category ${name}`} />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
@@ -50,7 +46,6 @@ const ThreadsByCategoryPage: React.FC<IThreadPage> = (props) => {
                 > {name}
                 </Text>
                 {' '}Threads</Text>
-                {/* <Text fontSize='lg' fontWeight='medium'>Where everyone can share anything about books.</Text> */}
                 </Flex>
                 <Threads threads={threads} />
             </Layout>

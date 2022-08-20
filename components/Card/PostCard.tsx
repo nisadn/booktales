@@ -1,4 +1,4 @@
-import { Box, Divider, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import PostDetails from "./Post";
 
 type Post = {

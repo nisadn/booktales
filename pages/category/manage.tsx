@@ -31,7 +31,6 @@ const ManageCategoryPage = (
     const role = useSelector((state: RootState) => state.auth.account.role);
     const toast = useToast();
     const router = useRouter();
-    // const categories = useSelector((state: RootState) => state.category.value);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -66,7 +65,6 @@ const ManageCategoryPage = (
                     Manage Category
                 </Text>
                 </Flex>
-                {/* <Threads threads={threads} /> */}
                 <ManageCategory categories={categories} />
             </Layout>
 
