@@ -21,7 +21,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
     const router = useRouter();
 
     useEffect(() => {
-        if (tokenExp * 1000 < Date.now()) {
+        if (tokenExp !== null && tokenExp * 1000 < Date.now()) {
           dispatch(logout());
           toast({
             title: "Your token is expired. Automatically logged out.",
