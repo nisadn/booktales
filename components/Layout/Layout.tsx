@@ -1,5 +1,6 @@
-import { Flex } from "@chakra-ui/react"
+import { Flex, useToast } from "@chakra-ui/react"
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/features/auth/authSlice";
@@ -16,10 +17,21 @@ const Layout: React.FC<LayoutProps> = (props) => {
     const { children, page } = props;
     const tokenExp = useSelector((state: RootState) => state.auth.token.exp);
     const dispatch = useDispatch();
+    const toast = useToast();
+    const router = useRouter();
 
     useEffect(() => {
         if (tokenExp * 1000 < Date.now()) {
           dispatch(logout());
+          toast({
+            title: "Successfully logged out",
+            status: 'success',
+            variant: 'left-accent',
+            position: 'top',
+            duration: 3000,
+            isClosable: true,
+          });
+          router.push('/login');
         }
     }, []);
 

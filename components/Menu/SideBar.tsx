@@ -78,6 +78,14 @@ const SideBar: React.FC<ISideBar> = (props) => {
                     {isLogin ? 
                         <MenuIcon icon={BiLogOutCircle} label='Logout' color='red.600' onClick={() => {
                             dispatch(logout());
+                            toast({
+                              title: "Successfully logged out",
+                              status: 'success',
+                              variant: 'left-accent',
+                              position: 'top',
+                              duration: 3000,
+                              isClosable: true,
+                            });
                             router.push('/login');
                         }} />
                     : 
