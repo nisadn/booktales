@@ -19,9 +19,7 @@ axiosClient.interceptors.request.use((config) => {
   return config;
 });
 
-axiosClient.interceptors.response.use(
-
-  
+axiosClient.interceptors.response.use(  
     function (response) {
       return response;
     }, 

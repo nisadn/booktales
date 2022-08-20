@@ -8,7 +8,7 @@ type Account = {
 }
 
 type Token = {
-  exp: string;
+  exp: any;
   iss: string;
 }
 
@@ -26,7 +26,7 @@ const initialState: AuthState = {
     token: '',
   },
   token: {
-    exp: '',
+    exp: null,
     iss: '',
   }
 }
@@ -38,7 +38,7 @@ export const authSlice = createSlice({
     login: (state, action: PayloadAction<Account>) => {
       state.isLogin = true;
       state.account = action.payload;
-      state.token = jwt_decode(action.payload.token)
+      state.token = jwt_decode(action.payload.token);
     },
     logout: (state) => {
       state.isLogin = false;
@@ -48,7 +48,7 @@ export const authSlice = createSlice({
         token: '',
       },
       state.token= {
-        exp: '',
+        exp: null,
         iss: '',
       }
     }
