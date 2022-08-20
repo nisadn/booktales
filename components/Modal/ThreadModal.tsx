@@ -151,7 +151,7 @@ const ThreadModal: React.FC<IThreadModal> = (props) => {
                         placeholder={isUpdate ? '' : 'Select category'}
                         {...register("categoryId", {required: true})}
                     >
-                        {categories.map((val: Category) => (
+                        {categories && categories.map((val: Category) => (
                             <option value={val.id} key={val.id}>{val.name}</option>
                         ))}
                     </Select>

@@ -9,9 +9,17 @@ export const categoryApi = {
             return Promise.reject(error);
         }
     },
-    edit: async (id: number, data: any) => {
+    edit: async (data: any) => {
         try {
-            const res = await axiosClient.put(`/category/${id}`, data);
+            const res = await axiosClient.put(`/category/${data.id}`, data);
+            return res;
+        } catch (error: any) {
+            return Promise.reject(error);
+        }
+    },
+    delete: async (id: string) => {
+        try {
+            const res = await axiosClient.delete(`/category/${id}`);
             return res;
         } catch (error: any) {
             return Promise.reject(error);

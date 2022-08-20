@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useMutation, UseMutationResult } from "react-query";
 import { useSelector } from "react-redux";
+import { categoryApi } from "../../config/service/categoryApi";
 import { postApi } from "../../config/service/postApi";
 import { threadApi } from "../../config/service/threadApi";
 import { RootState } from "../../redux/store";
@@ -25,36 +26,19 @@ const RemoveModal: React.FC<IModal> = (props) => {
     const router = useRouter();
     const cId = useSelector((state: RootState) => state.selectedCat.value.id);
 
-    const deleteThread = async (id: string) => {
-        const res = await threadApi.delete(id);
-        return res.data;
-    }
-    const deletePost = async (id: string) => {
-        const res = await postApi.delete(id);
-        return res.data;
-    }
-    const mutation: UseMutationResult<DeleteResp, Error, string> = useMutation<DeleteResp, Error, string>(deleteThread, {
-        onError: () => {
-            toast({
-                title: 'Something went wrong',
-                status: 'error',
-                variant: 'left-accent',
-                position: 'top',
-                duration: 3000,
-                isClosable: true,
-            });
-        },
-        onSuccess: () => {
-            toast({
-                title: `Successfully delete thread`,
-                variant: 'left-accent',
-                position: 'top',
-                duration: 3000,
-                isClosable: true,
-            });
+    const deleteObject = async (id: string) => {
+        let res: any;
+        if (object === 'thread') {
+            res = await threadApi.delete(id);
+        } else if (object === 'post') {
+            res = await postApi.delete(id);
+        } else {
+            res = await categoryApi.delete(id);
         }
-    });
-    const mutationPost: UseMutationResult<DeleteResp, Error, string> = useMutation<DeleteResp, Error, string>(deletePost, {
+        return res.data;
+    }
+
+    const mutation: UseMutationResult<DeleteResp, Error, string> = useMutation<DeleteResp, Error, string>(deleteObject, {
         onError: () => {
             toast({
                 title: 'Something went wrong',
@@ -67,7 +51,7 @@ const RemoveModal: React.FC<IModal> = (props) => {
         },
         onSuccess: () => {
             toast({
-                title: `Successfully delete post`,
+                title: `Successfully delete ${object}`,
                 variant: 'left-accent',
                 position: 'top',
                 duration: 3000,
@@ -77,19 +61,15 @@ const RemoveModal: React.FC<IModal> = (props) => {
     });
 
     const handleDelete = () => {
-        if (object === 'thread') {
-            mutation.mutate(id);
-        } else if (object === 'post') {
-            mutationPost.mutate(id);
-        }
+        mutation.mutate(id);
     }
 
     if (mutation.isSuccess) {
-        router.push(`/category/${cId}`);
-    }
-
-    if (mutationPost.isSuccess) {
-        router.reload();
+        if (object === 'thread') {
+            router.push(`/category/${cId}`);
+        } else {
+            router.reload();
+        }
     }
 
     return (
@@ -101,7 +81,7 @@ const RemoveModal: React.FC<IModal> = (props) => {
             </ModalHeader>
 
             <ModalFooter justifyContent='center' gap='4'>
-                <PrimaryButton px='10' onClick={handleDelete} isLoading={mutation.isLoading || mutationPost.isLoading}>Yes</PrimaryButton>
+                <PrimaryButton px='10' onClick={handleDelete} isLoading={mutation.isLoading}>Yes</PrimaryButton>
                 <OutlineButton px='10' onClick={onClose}>No</OutlineButton>
             </ModalFooter>
             </ModalContent>

@@ -33,7 +33,7 @@ const RightContent = () => {
       <Flex direction='column' gap='2'>
         <Text fontWeight='semibold' mb='2'>Choose category to see threads</Text>
         <Box w='full' lineHeight={7} >
-            {categories.map((val: Category) => (
+            {categories && categories.map((val: Category) => (
                 // <Badge colorScheme='facebook' px='4' mr='2' mb='2' key={val.id}>{val.title}</Badge>
                 <Button mr='2' mb='2' size='sm' key={val.id} onClick={() => {
                   dispatch(select(val));
@@ -42,7 +42,7 @@ const RightContent = () => {
             ))}
         </Box>
         {isLogin && account.role === 'admin' && <><PrimaryButton onClick={onOpen} size={['sm', 'sm', 'md']} >Add Category</PrimaryButton>
-        <OutlineButton onClick={() => router.push('/')} size={['sm', 'sm', 'md']}>
+        <OutlineButton onClick={() => router.push('/category/manage')} size={['sm', 'sm', 'md']}>
         <Text whiteSpace='normal'>
           Manage Category
         </Text>

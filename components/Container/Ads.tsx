@@ -30,7 +30,7 @@ const Ads = () => {
                     Discover stories and thinking from other users on any topic within these categories.
                 </Text>
                 <Wrap spacingY='4' spacingX='4' pb='2'>
-                    {categories.map((c: Category) => (
+                    {categories && categories.map((c: Category) => (
                         <Button 
                             variant='outline' 
                             border='2px'

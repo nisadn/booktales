@@ -6,9 +6,15 @@ import { useMutation, UseMutationResult } from "react-query";
 import { categoryApi } from "../../config/service/categoryApi";
 import { useRouter } from "next/router";
 
+type Category = {
+    id: string;
+    name: string;
+}
 interface ICategoryModal {
     isOpen: any;
     onClose: any;
+    isUpdate?: boolean;
+    defaultCategory?: Category;
 }
 
 type CategoryReq = {
@@ -20,14 +26,19 @@ type CategoryResp = CategoryReq & {
 }
 
 const CategoryModal: React.FC<ICategoryModal> = (props) => {
-    const { isOpen, onClose } = props;
+    const { isOpen, onClose, isUpdate, defaultCategory } = props;
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const toast = useToast();
     const router = useRouter();
 
     const postCategory = async (data: CategoryReq) => {
-        const res = await categoryApi.create(data);
+        let res: any;
+        if (isUpdate) {
+            res = await categoryApi.edit(data);
+        } else {
+            res = await categoryApi.create(data);
+        }
         return res.data;
     } 
 
@@ -44,7 +55,7 @@ const CategoryModal: React.FC<ICategoryModal> = (props) => {
         },
         onSuccess: (res) => {
             toast({
-                title: `Successfully create category ${res.name}`,
+                title: `Successfully ${isUpdate ? 'update' : 'create'} category ${res.name}`,
                 variant: 'left-accent',
                 position: 'top',
                 duration: 3000,
@@ -55,8 +66,9 @@ const CategoryModal: React.FC<ICategoryModal> = (props) => {
     
     
     const onSubmit = (data: any) => {
-        // setLoadSubmit(true);
-        // console.log(data);
+        if (isUpdate) {
+            data.id = defaultCategory?.id;
+        }
         mutation.mutate(data);
     };
 
@@ -75,6 +87,7 @@ const CategoryModal: React.FC<ICategoryModal> = (props) => {
             <ModalBody pt='4'>
             <FormControl isInvalid={errors.name !== undefined}>
                 <Input 
+                    defaultValue={defaultCategory?.name}
                     placeholder='Insert new category here' 
                     {...register("name", {
                         required: true, 
@@ -86,7 +99,9 @@ const CategoryModal: React.FC<ICategoryModal> = (props) => {
             </ModalBody>
 
             <ModalFooter justifyContent='center' gap='4'>
-                <PrimaryButton px='10' type='submit' isLoading={mutation.isLoading} >Add</PrimaryButton>
+                <PrimaryButton px='10' type='submit' isLoading={mutation.isLoading} >{
+                    isUpdate? 'Save' : 'Add'
+                }</PrimaryButton>
                 <OutlineButton px='10' onClick={onClose}>Cancel</OutlineButton>
             </ModalFooter>
             </form>
